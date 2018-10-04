@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <EvidenceTable msg="Welcome!" v-bind:data="outcomeInterventionArray" />
+    <EvidenceTable v-bind:interventions="interventions" v-bind:outcomeGroups="outcomeGroups" />
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
       outcomes: [],
       interventions: [],
       outcomeInterventionLU: {},
-      outcomeInterventionArray: []
+      outcomeGroups: []
     }
   },
   mounted: function() {
@@ -35,7 +35,7 @@ export default {
           this.studies = getStudies(studies)
 
           this.outcomeInterventionLU = getOutcomeInterventionLU(outcomes, interventions, studies)
-          this.outcomeInterventionArray = getOutcomeInterventionArray(this.outcomeInterventionLU, outcomes, interventions, this.outcomeCategories, this.interventionCategories)
+          this.outcomeGroups = getOutcomeInterventionArray(this.outcomeInterventionLU, outcomes, interventions, this.outcomeCategories, this.interventionCategories)
           console.log(err, studies, 'lu', this.outcomeInterventionLU)
         })
       })
