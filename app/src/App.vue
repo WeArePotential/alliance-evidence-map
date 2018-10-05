@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <EvidenceTable v-bind:interventions="interventions" v-bind:outcomeGroups="outcomeGroups" />
+    <div id="sidebar">Sidebar</div>
+    <ScrollingEvidenceTable v-bind:interventions="interventions" v-bind:outcomeGroups="outcomeGroups" />
   </div>
 </template>
 
 <script>
-import EvidenceTable from './components/EvidenceTable.vue'
+import ScrollingEvidenceTable from './components/ScrollingEvidenceTable.vue'
 import {csv as d3_csv} from 'd3-request'
 
 import {getStudies, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray} from './data-processing'
@@ -13,7 +14,7 @@ import {getStudies, getCategories, getOutcomeInterventionLU, getOutcomeIntervent
 export default {
   name: 'app',
   components: {
-    EvidenceTable
+    ScrollingEvidenceTable
   },
   data: function() {
     return {
@@ -45,12 +46,18 @@ export default {
 </script>
 
 <style>
+body {
+  overflow: hidden;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#sidebar {
+  width: 200px;
 }
 </style>

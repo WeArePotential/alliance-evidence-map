@@ -18,7 +18,7 @@
             <svg v-bind:width="numCols * cellSize" v-bind:height="numRows * cellSize">
               <g v-bind:transform="'translate(' + x + ',' + y + ')'">
                 <g v-for="(row, i) in values" v-bind:transform="`translate(0, ${i * 100 + 50})`">
-                  <circle v-for="(d, i) in row" v-bind:r="d" v-bind:cx="i * 100 + 50" cy="0" />
+                  <circle v-for="(d, i) in row" v-bind:r="d" v-bind:cx="i * 100 + 50" cy="0" v-on:click="handleCellClick()" />
                 </g>
               </g>
             </svg>
@@ -28,12 +28,6 @@
     </div>
   </div>
 </template>
-
-<!-- <div class="grid-inner" v-bind:style="{left: x + 'px', top: y + 'px'}">
-  <div class="grid-row" v-for="row in values">
-    <div class="grid-cell" v-for="cell in row">{{cell}}</div>
-  </div>
-</div> -->
 
 <script>
 import {drag as d3_drag} from 'd3-drag'
@@ -53,6 +47,7 @@ export default {
       x: 0,
       y: 0,
       drag: d3_drag().on('drag', () => {
+        console.log('drag')
         this.x += d3_event.dx
         if(this.x > 0) this.x = 0
         this.y += d3_event.dy
@@ -73,6 +68,11 @@ export default {
       return values
     }
   },
+  methods: {
+    handleCellClick: function() {
+      console.log('click')
+    }
+  },
   mounted: function() {
     console.log('mounted')
     d3_select('.grid-inner')
@@ -82,6 +82,9 @@ export default {
 </script>
 
 <style>
+body {
+  overflow: hidden;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -105,10 +108,12 @@ export default {
 }
 
 .scrollable-table {
-  /* border: 1px solid #eee; */
   margin-left: 200px;
   position: relative;
-  /* flex-grow: 2; */
+}
+
+.scrollable-table svg {
+  overflow: hidden;
 }
 
 .fixed-corner {
@@ -119,23 +124,17 @@ export default {
   position: absolute;
 }
 .fixed-row {
-  /* height: 100px; */
   z-index: 100;
   background-color: #fff;
   position: relative;
 }
 
 .fixed-row-cell {
-  /* display: inline-block; */
   position: absolute;
   top: 0;
   width: 100px;
-  /* height: 100px; */
-  /* border: 1px solid #fff; */
   text-align: center;
   line-height: 100px;
-  /* background-color: red; */
-  /* z-index: 100; */
 }
 
 .fixed-col {
@@ -147,7 +146,6 @@ export default {
 
 .fixed-col-cell {
   width: 100px;
-  /* border: 1px solid #fff; */
   text-align: center;
   line-height: 100px;
 }

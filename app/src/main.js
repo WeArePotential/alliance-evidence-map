@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import ScrollTestApp from './ScrollTestApp.vue'
+import App from './App.vue'
 
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(ScrollTestApp)
+  render: h => h(App)
 }).$mount('#app')
