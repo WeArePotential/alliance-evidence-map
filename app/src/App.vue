@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="sidebar">Sidebar</div>
-    <ScrollingEvidenceTable v-bind:interventions="interventions" v-bind:outcomeGroups="outcomeGroups" />
+    <ScrollingEvidenceTable v-bind:interventions="interventions" v-bind:outcomes="outcomes" v-bind:outcomeGroups="outcomeGroups" />
   </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
 
           this.outcomeInterventionLU = getOutcomeInterventionLU(outcomes, interventions, studies)
           this.outcomeGroups = getOutcomeInterventionArray(this.outcomeInterventionLU, outcomes, interventions, this.outcomeCategories, this.interventionCategories)
-          console.log(err, studies, 'lu', this.outcomeInterventionLU)
+          // console.log(err, studies, 'lu', this.outcomeInterventionLU)
         })
       })
     })

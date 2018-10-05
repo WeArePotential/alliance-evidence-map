@@ -60,11 +60,11 @@ function getOutcomeInterventionLU(outcomes, interventions, studies) {
     d.outcomes.forEach(outcome => {
       d.interventions.forEach(intervention => {
         if(lu[outcome] === undefined) {
-          console.log('no outcome for', outcome, 'from', d)
+          // console.log('no outcome for', outcome, 'from', d)
           return
         }
         if(lu[outcome][intervention] === undefined) {
-          console.log('no intervention for', intervention, 'from', d)
+          // console.log('no intervention for', intervention, 'from', d)
           return
         }
         if(evidenceAgainst) {

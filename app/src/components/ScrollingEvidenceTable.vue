@@ -1,6 +1,5 @@
 <template>
 
-
   <div class="scrollable-table">
     <div class="fixed-corner"></div>
 
@@ -10,89 +9,32 @@
     </div>
 
     <div class="fixed-col" v-bind:style="{top: y + 'px'}">
-      <!-- <div v-for="group in outcomeGroups"> -->
-      <div class="fixed-col-cell" v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:style="{top: (150 + i * 100) + 'px'}">{{outcome.outcome}}</div>
-      <!-- </div> -->
+      <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" v-bind:style="{top: (150 + i * 100) + 'px'}">{{outcome.Outcome}}</div>
     </div>
 
     <div class="grid-wrapper">
       <div class="grid-inner">
-        <svg v-bind:width="numCols * cellSize" v-bind:height="numRows * cellSize">
+        <svg v-bind:width="numCols * cellSize" v-bind:height="numRows * cellSize"  v-if="outcomeGroups.length > 0">
           <g v-bind:transform="'translate(' + x + ',' + y + ')'">
-            <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * 100 + 50})`">
-              <circle v-for="(d, i) in row" v-bind:r="d" v-bind:cx="i * 100 + 50" cy="0" v-on:click="handleCellClick()" />
+            <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * 100})`">
+              <g v-for="(d, i) in outcome.interventions" v-bind:transform="`translate(${i * 100}, 0)`" v-on:click="handleCellClick()">
+                <circle cx="50" cy="50" v-bind:r="d.data.for.high.length * 20" />
+              </g>
             </g>
           </g>
         </svg>
       </div>
     </div>
-
-  </div>
-
-
-  <!-- <div class="evidence-table-container">
-    <table>
-      <thead>
-        <tr>
-          <td></td>
-          <td v-for="intervention in interventions">{{intervention.Intervention}}</td>
-        </tr>
-      </thead>
-      <tbody v-for="group in outcomeGroups">
-        <tr>
-          <td v-bind:colspan="interventions.length + 1" class="outcome-group-header">{{group.name}}</td>
-        </tr>
-        <tr v-for="outcome in group.outcomes">
-          <td>{{outcome.outcome}}</td>
-          <td v-for="iv in outcome.interventions">
-            <div>
-              {{iv.data.for.low.length}},
-              {{iv.data.for.moderate.length}},
-              {{iv.data.for.high.length}}
-            </div>
-            <div>
-              {{iv.data.against.low.length}},
-              {{iv.data.against.moderate.length}},
-              {{iv.data.against.high.length}}
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
-    <!-- <div>
-      <div>
-        <div>
-          <div class="cell"></div>
-          <div class="cell" v-for="intervention in interventions">{{intervention.Intervention}}</div>
-        </div>
-      </div>
-      <div v-for="group in outcomeGroups">
-        <div>
-          <div v-bind:colspan="interventions.length + 1" class="outcome-group-header">{{group.name}}</div>
-        </div>
-        <div v-for="outcome in group.outcomes">
-          <div class="cell">{{outcome.outcome}}</div>
-          <div  class="cell" v-for="iv in outcome.interventions">
-            <div>
-              {{iv.data.for.low.length}},
-              {{iv.data.for.moderate.length}},
-              {{iv.data.for.high.length}}
-            </div>
-            <div>
-              {{iv.data.against.low.length}},
-              {{iv.data.against.moderate.length}},
-              {{iv.data.against.high.length}}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
+
 <script>
+import {drag as d3_drag} from 'd3-drag'
+import {select as d3_select, event as d3_event} from 'd3-selection'
+
 export default {
-  name: 'EvidenceTable',
+  name: 'ScrollingEvidenceTable',
   props: {
     outcomes: Array,
     interventions: Array,
@@ -102,16 +44,29 @@ export default {
     return {
       x: 0,
       y: 0,
-      cellSize: 100
+      cellSize: 100,
+      drag: d3_drag().on('drag', () => {
+        console.log('drag')
+        this.x += d3_event.dx
+        if(this.x > 0) this.x = 0
+        this.y += d3_event.dy
+        if(this.y > 0) this.y = 0
+      })
     }
   },
   computed: {
     numRows: function() {
-      return this.outcomeGroups[0].outcomes.length
+      // console.log('outcomes', this.outcomes)
+      return this.outcomes ? this.outcomes.length : 0
     },
     numCols: function() {
       return this.interventions.length
     }
+  },
+  mounted: function() {
+    console.log('mounted', d3_select('.grid-inner').node())
+    d3_select('.grid-inner')
+      .call(this.drag)
   }
 }
 </script>
@@ -165,5 +120,31 @@ export default {
   /* line-height: 100px; */
 }
 
+.grid-wrapper {
+  width: 2000px;
+  height: 1000px;
+  background-color: #eee;
+  position: absolute;
+  top: 150px;
+  left: 100px;
+}
+
+.grid-inner {
+  position: absolute;
+}
+
+.grid-inner svg {
+  width: 2000px;
+  height: 1000px;
+}
+
+.grid-cell {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #fff;
+  text-align: center;
+  line-height: 100px;
+}
 
 </style>
