@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="sans-serif">
     <Sidebar :width="sidebarWidth" :outcomeInterventionLU="outcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU"></Sidebar>
-    <ScrollingEvidenceTable :interventions="interventions" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :action="action" :sidebarWidth="sidebarWidth" />
+    <ScrollingEvidenceTable :interventions="interventions" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import ScrollingEvidenceTable from './components/ScrollingEvidenceTable.vue'
 import Sidebar from './components/Sidebar.vue'
 import {csv as d3_csv} from 'd3-request'
 
-import {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray} from './data-processing'
+import {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray, getMaxStudies} from './data-processing'
 
 export default {
   name: 'app',
@@ -26,6 +26,7 @@ export default {
       interventions: [],
       outcomeInterventionLU: {},
       outcomeGroups: [],
+      maxStudies: 0,
 
 
       sidebarWidth: 400,
@@ -45,6 +46,9 @@ export default {
 
           this.outcomeInterventionLU = getOutcomeInterventionLU(outcomes, interventions, studies)
           this.outcomeGroups = getOutcomeInterventionArray(this.outcomeInterventionLU, outcomes, interventions, this.outcomeCategories, this.interventionCategories)
+
+          this.maxStudies = getMaxStudies(this.outcomeGroups)
+
           console.log(err, studies, 'studies lu', this.studiesLU)
         })
       })

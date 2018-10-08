@@ -90,8 +90,6 @@ function getOutcomeInterventionLU(outcomes, interventions, studies) {
 function getOutcomeInterventionArray(lu, outcomes, interventions, oCats, iCats) {
   let a = []
 
-  console.log(oCats, iCats)
-
   oCats.forEach(oCat => {
     let group = {
       name: oCat,
@@ -125,4 +123,24 @@ function getOutcomeInterventionArray(lu, outcomes, interventions, oCats, iCats) 
   return a
 }
 
-export {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray}
+function getMaxStudies(outcomeGroups) {
+  let max = 0
+  outcomeGroups.forEach(g => {
+    g.outcomes.forEach(o => {
+      o.interventions.forEach(i => {
+        let m = Math.max(
+          i.data.for.high.length,
+          i.data.for.moderate.length,
+          i.data.for.low.length,
+          i.data.against.high.length,
+          i.data.against.moderate.length,
+          i.data.against.low.length
+        )
+        if(m > max) max = m
+      })
+    })
+  })
+  return max
+}
+
+export {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray, getMaxStudies}

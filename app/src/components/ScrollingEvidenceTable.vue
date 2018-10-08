@@ -4,11 +4,15 @@
     <div class="fixed-corner" :style="{left: sidebarWidth + 'px', width: leftHeaderWidth + 'px', height: topHeaderHeight + 'px'}"></div>
 
     <div class="fixed-row" :style="{left: sidebarWidth + 'px'}">
-      <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * 100) + 'px', height: topHeaderHeight + 'px'}">{{intervention.Intervention}}</div>
+      <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * 100) + 'px', height: topHeaderHeight + 'px'}">
+        <div class="b">{{intervention.Intervention}}</div>
+      </div>
     </div>
 
     <div class="fixed-col" :style="{left: sidebarWidth + 'px'}">
-      <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * 100) + 'px', width: leftHeaderWidth + 'px'}">{{outcome.Outcome}}</div>
+      <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * 100) + 'px', width: leftHeaderWidth + 'px'}">
+        <div class="b">{{outcome.Outcome}}</div>
+      </div>
     </div>
 
     <div class="grid-wrapper">
@@ -17,7 +21,7 @@
           <g>
             <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * 100})`">
               <g v-for="(d, i) in outcome.interventions" v-bind:transform="`translate(${i * 100}, 0)`" v-on:click="action('selectCell', {outcome: outcome.outcome, intervention: d.intervention})">
-                <circle cx="50" cy="50" v-bind:r="d.data.for.high.length * 20" />
+                <Barchart :data="d.data" :size="cellSize" :maxStudies="maxStudies" />
               </g>
             </g>
           </g>
@@ -32,18 +36,24 @@
 import {drag as d3_drag} from 'd3-drag'
 import {select as d3_select, event as d3_event} from 'd3-selection'
 
+import Barchart from './Barchart.vue'
+
 export default {
   name: 'ScrollingEvidenceTable',
+  components: {
+    Barchart
+  },
   props: {
     outcomes: Array,
     interventions: Array,
     outcomeGroups: Array,
     action: Function,
-    sidebarWidth: Number
+    sidebarWidth: Number,
+    maxStudies: Number
   },
   data: function() {
     return {
-      topHeaderHeight: 150,
+      topHeaderHeight: 180,
       leftHeaderWidth: 200,
       innerOffsetX: 0,
       innerOffsetY: 0,
@@ -85,7 +95,7 @@ export default {
   height: 100px;
   background-color: white;
   z-index: 150;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
 }
 
 .fixed-row {
@@ -101,10 +111,14 @@ export default {
   height: 100px;
   width: 100px;
   text-align: center;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   background-color: white;
-  /* z-index: 100; */
 
+  display: flex;
+  align-items: flex-end;
+  padding: 0 5px 10px 5px;
+
+  box-sizing: border-box;
 }
 
 .fixed-col {
@@ -120,9 +134,12 @@ export default {
   height: 100px;
   width: 100px;
   text-align: center;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   background-color: white;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .grid-wrapper {
