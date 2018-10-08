@@ -1,15 +1,15 @@
 <template>
 
   <div class="scrollable-table">
-    <div class="fixed-corner" :style="{left: innerOffsetX + 'px', top: innerOffsetY + 'px', width: leftHeaderWidth + 'px', height: topHeaderHeight + 'px'}">    {{innerOffsetY}}
+    <div class="fixed-corner" :style="{width: leftHeaderWidth + 'px', height: topHeaderHeight + 'px'}">    {{innerOffsetY}}
 </div>
 
-    <div class="fixed-row" :style="{top: innerOffsetY + 'px'}">
-      <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: leftHeaderWidth + i * 100 + 'px', height: topHeaderHeight + 'px'}">{{intervention.Intervention}}</div>
+    <div class="fixed-row">
+      <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * 100) + 'px', height: topHeaderHeight + 'px'}">{{intervention.Intervention}}</div>
     </div>
 
-    <div class="fixed-col" :style="{left: innerOffsetX + 'px'}">
-      <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (topHeaderHeight + i * 100) + 'px', width: leftHeaderWidth + 'px'}">{{outcome.Outcome}}</div>
+    <div class="fixed-col">
+      <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * 100) + 'px', width: leftHeaderWidth + 'px'}">{{outcome.Outcome}}</div>
     </div>
 
     <div class="grid-wrapper">
@@ -79,9 +79,9 @@ export default {
 
 
 .fixed-corner {
-  position: absolute;
+  position: fixed;
   top: 0;
-  left: 0;
+  left: 200px;
   width: 100px;
   height: 100px;
   background-color: white;
@@ -90,7 +90,12 @@ export default {
 }
 
 .fixed-row {
-  position: relative;
+  /* position: relative; */
+
+  position: fixed;
+  left: 200px;
+  top: 0;
+  z-index: 100;
 }
 
 .fixed-row .fixed-row-cell {
@@ -100,12 +105,17 @@ export default {
   text-align: center;
   border: 1px solid #ddd;
   background-color: white;
-  z-index: 100;
+  /* z-index: 100; */
 
 }
 
 .fixed-col {
-  position: relative;
+  /* position: relative; */
+
+  position: fixed;
+  left: 200px;
+  z-index: 100;
+  /* top: 150px; */
 }
 
 .fixed-col-cell {
