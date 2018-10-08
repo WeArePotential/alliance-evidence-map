@@ -1,7 +1,7 @@
 <template>
   <div class="study-list">
     <div class="study" v-for="id in ids">
-      <h1>{{studiesLU[id].Title}}</h1>
+      <div class="f3">{{studiesLU[id].Title}}</div>
       <div class="summary">{{studiesLU[id].Summary}}</div>
       <div>Type: {{studiesLU[id].Type}}</div>
       <div>Programme: {{studiesLU[id].Programme}}</div>
@@ -11,10 +11,10 @@
       <div>Contact: {{studiesLU[id].Contact}}</div>
       <div>Orgs involved: {{studiesLU[id]['Orgs involved']}}</div>
       <div>Notes: {{studiesLU[id].Notes}}</div>
-      <div>URL: <a :href="studiesLU[id].Link">{{studiesLU[id].Link}}</a></div>
       <div>Region: {{studiesLU[id].Region}}</div>
       <div>Primary study / Review: {{studiesLU[id]['Primary study / Review']}}</div>
       <div>Internal / External: {{studiesLU[id]['Internal / External']}}</div>
+      <div><a :href="studiesLU[id].Link">External link</a></div>
 
     </div>
   </div>
@@ -36,5 +36,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.study {
+  margin-bottom: 40px;
+}
 </style>

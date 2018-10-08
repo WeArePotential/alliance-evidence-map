@@ -1,8 +1,7 @@
 <template>
 
   <div class="scrollable-table" :style="{marginLeft: sidebarWidth + 'px'}">
-    <div class="fixed-corner" :style="{left: sidebarWidth + 'px', width: leftHeaderWidth + 'px', height: topHeaderHeight + 'px'}">    {{innerOffsetY}}
-</div>
+    <div class="fixed-corner" :style="{left: sidebarWidth + 'px', width: leftHeaderWidth + 'px', height: topHeaderHeight + 'px'}"></div>
 
     <div class="fixed-row" :style="{left: sidebarWidth + 'px'}">
       <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * 100) + 'px', height: topHeaderHeight + 'px'}">{{intervention.Intervention}}</div>
