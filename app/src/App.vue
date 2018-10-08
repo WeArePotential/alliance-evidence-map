@@ -1,28 +1,35 @@
 <template>
   <div id="app">
-    <div id="sidebar">Sidebar</div>
-    <ScrollingEvidenceTable v-bind:interventions="interventions" v-bind:outcomes="outcomes" v-bind:outcomeGroups="outcomeGroups" />
+    <Sidebar :width="sidebarWidth" :outcomeInterventionLU="outcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU"></Sidebar>
+    <ScrollingEvidenceTable :interventions="interventions" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :action="action" :sidebarWidth="sidebarWidth" />
   </div>
 </template>
 
 <script>
 import ScrollingEvidenceTable from './components/ScrollingEvidenceTable.vue'
+import Sidebar from './components/Sidebar.vue'
 import {csv as d3_csv} from 'd3-request'
 
-import {getStudies, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray} from './data-processing'
+import {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray} from './data-processing'
 
 export default {
   name: 'app',
   components: {
+    Sidebar,
     ScrollingEvidenceTable
   },
   data: function() {
     return {
       studies: [],
+      studiesLU: {},
       outcomes: [],
       interventions: [],
       outcomeInterventionLU: {},
-      outcomeGroups: []
+      outcomeGroups: [],
+
+
+      sidebarWidth: 400,
+      selectedCell: {intervention: null, outcome: null}
     }
   },
   mounted: function() {
@@ -34,13 +41,26 @@ export default {
           this.outcomes = outcomes
           this.outcomeCategories = getCategories(this.outcomes)
           this.studies = getStudies(studies)
+          this.studiesLU = getStudiesLU(this.studies)
 
           this.outcomeInterventionLU = getOutcomeInterventionLU(outcomes, interventions, studies)
           this.outcomeGroups = getOutcomeInterventionArray(this.outcomeInterventionLU, outcomes, interventions, this.outcomeCategories, this.interventionCategories)
-          // console.log(err, studies, 'lu', this.outcomeInterventionLU)
+          console.log(err, studies, 'studies lu', this.studiesLU)
         })
       })
     })
+  },
+  methods: {
+    action: function(type, args) {
+      console.log(type, args)
+      switch(type) {
+      case 'selectCell':
+        this.selectedCell = args
+        break
+      default:
+        console.log('Unknown action', type)
+      }
+    }
   }
 }
 </script>
@@ -55,15 +75,5 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
   color: #2c3e50;
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 200px;
-  background-color: #faa;
-  z-index: 200;
 }
 </style>

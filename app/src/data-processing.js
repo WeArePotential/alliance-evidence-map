@@ -25,6 +25,14 @@ function getStudies(data) {
   return ret
 }
 
+function getStudiesLU(studies) {
+  let lu = {}
+  studies.forEach(d => {
+    lu[d.id] = d
+  })
+  return lu
+}
+
 function getCategories(data) {
   return uniq(data.map(d => d.Category))
 }
@@ -113,8 +121,8 @@ function getOutcomeInterventionArray(lu, outcomes, interventions, oCats, iCats) 
     a.push(group)
   })
 
-  console.log('array', a)
+  // console.log('array', a)
   return a
 }
 
-export {getStudies, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray}
+export {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray}
