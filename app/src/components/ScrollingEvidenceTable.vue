@@ -1,21 +1,21 @@
 <template>
 
   <div class="scrollable-table">
-    <div class="fixed-corner"></div>
+    <div class="fixed-corner" :style="{left: innerOffsetX + 'px', top: innerOffsetY + 'px', width: leftHeaderWidth + 'px', height: topHeaderHeight + 'px'}">    {{innerOffsetY}}
+</div>
 
-    <div class="fixed-row" v-bind:style="{left: x + 'px'}">
-      <div class="fixed-row-cell"></div>
-      <div class="fixed-row-cell" v-for="(intervention, i) in interventions" v-bind:style="{left: (i + 1) * 100 + 'px'}">{{intervention.Intervention}}</div>
+    <div class="fixed-row" :style="{top: innerOffsetY + 'px'}">
+      <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: leftHeaderWidth + i * 100 + 'px', height: topHeaderHeight + 'px'}">{{intervention.Intervention}}</div>
     </div>
 
-    <div class="fixed-col" v-bind:style="{top: y + 'px'}">
-      <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" v-bind:style="{top: (150 + i * 100) + 'px'}">{{outcome.Outcome}}</div>
+    <div class="fixed-col" :style="{left: innerOffsetX + 'px'}">
+      <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (topHeaderHeight + i * 100) + 'px', width: leftHeaderWidth + 'px'}">{{outcome.Outcome}}</div>
     </div>
 
     <div class="grid-wrapper">
-      <div class="grid-inner">
+      <div class="grid-inner" :style="{left: (leftHeaderWidth) + 'px', top: (topHeaderHeight) + 'px'}">
         <svg v-bind:width="numCols * cellSize" v-bind:height="numRows * cellSize"  v-if="outcomeGroups.length > 0">
-          <g v-bind:transform="'translate(' + x + ',' + y + ')'">
+          <g>
             <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * 100})`">
               <g v-for="(d, i) in outcome.interventions" v-bind:transform="`translate(${i * 100}, 0)`" v-on:click="handleCellClick()">
                 <circle cx="50" cy="50" v-bind:r="d.data.for.high.length * 20" />
@@ -42,16 +42,11 @@ export default {
   },
   data: function() {
     return {
-      x: 0,
-      y: 0,
-      cellSize: 100,
-      drag: d3_drag().on('drag', () => {
-        console.log('drag')
-        this.x += d3_event.dx
-        if(this.x > 0) this.x = 0
-        this.y += d3_event.dy
-        if(this.y > 0) this.y = 0
-      })
+      topHeaderHeight: 150,
+      leftHeaderWidth: 200,
+      innerOffsetX: 0,
+      innerOffsetY: 0,
+      cellSize: 100
     }
   },
   computed: {
@@ -64,9 +59,12 @@ export default {
     }
   },
   mounted: function() {
-    console.log('mounted', d3_select('.grid-inner').node())
-    d3_select('.grid-inner')
-      .call(this.drag)
+    let self = this
+    window.addEventListener('scroll', function() {
+      console.log('scroll')
+      self.innerOffsetX = window.scrollX
+      self.innerOffsetY = window.scrollY
+    })
   }
 }
 </script>
@@ -79,11 +77,58 @@ export default {
   font-size: 12px;
 }
 
-.scrollable-table svg {
-  overflow: hidden;
-}
 
 .fixed-corner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  z-index: 150;
+  border: 1px solid #ddd;
+}
+
+.fixed-row {
+  position: relative;
+}
+
+.fixed-row .fixed-row-cell {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+  border: 1px solid #ddd;
+  background-color: white;
+  z-index: 100;
+
+}
+
+.fixed-col {
+  position: relative;
+}
+
+.fixed-col-cell {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+  border: 1px solid #ddd;
+  background-color: white;
+  z-index: 100;
+}
+
+.grid-wrapper {
+  position: relative;
+}
+
+.grid-inner {
+  position: absolute;
+  /* left: 100px; */
+  /* top: 100px; */
+}
+
+/* .fixed-corner {
   height: 100px;
   width: 100px;
   background-color: white;
@@ -102,7 +147,6 @@ export default {
   width: 100px;
   text-align: center;
   height: 150px;
-  /* overflow: hidden; */
 }
 
 .fixed-col {
@@ -115,9 +159,7 @@ export default {
 .fixed-col-cell {
   position: absolute;
   width: 100px;
-  /* text-align: cr; */
   height: 100px;
-  /* line-height: 100px; */
 }
 
 .grid-wrapper {
@@ -145,6 +187,6 @@ export default {
   border: 1px solid #fff;
   text-align: center;
   line-height: 100px;
-}
+} */
 
 </style>

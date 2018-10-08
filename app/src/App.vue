@@ -47,7 +47,7 @@ export default {
 
 <style>
 body {
-  overflow: hidden;
+  margin: 0;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -58,6 +58,12 @@ body {
 }
 
 #sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
   width: 200px;
+  background-color: #faa;
+  z-index: 200;
 }
 </style>

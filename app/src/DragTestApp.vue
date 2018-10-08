@@ -1,22 +1,18 @@
 <template>
   <div id="app">
     <div class="app-wrapper">
-      <div id="sidebar">
+      <div class="sidebar">
         Sidebar
       </div>
-      <div id="scrollable-table">
-
+      <div class="scrollable-table">
         <div class="fixed-corner"></div>
-
         <div class="fixed-row" v-bind:style="{left: x + 'px'}">
           <div class="fixed-row-cell"></div>
           <div class="fixed-row-cell" v-for="(cell, i) in values[0]" v-bind:style="{left: (i + 1) * 100 + 'px'}">{{i}}</div>
         </div>
-
         <div class="fixed-col" v-bind:style="{top: y + 'px'}">
-          <div class="fixed-col-cell" v-for="(cell, i) in values" v-bind:style="{top: (i + 1) * 100 + 'px'}">{{i}}</div>
+          <div class="fixed-row-cell" v-for="(cell, i) in values" v-bind:style="{top: (i + 1) * 100 + 'px'}">{{i}}</div>
         </div>
-
         <div class="grid-wrapper">
           <div class="grid-inner">
             <svg v-bind:width="numCols * cellSize" v-bind:height="numRows * cellSize">
@@ -28,28 +24,35 @@
             </svg>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {select as d3_select} from 'd3-selection'
+import {drag as d3_drag} from 'd3-drag'
+import {select as d3_select, event as d3_event} from 'd3-selection'
 
 
 export default {
-  name: 'scroll-test-app',
+  name: 'drag-test-app',
   components: {
     // EvidenceTable
   },
   data: function() {
     return {
-      numRows: 50,
-      numCols: 50,
+      numRows: 5,
+      numCols: 15,
       cellSize: 100,
       x: 0,
-      y: 0
+      y: 0,
+      drag: d3_drag().on('drag', () => {
+        console.log('drag')
+        this.x += d3_event.dx
+        if(this.x > 0) this.x = 0
+        this.y += d3_event.dy
+        if(this.y > 0) this.y = 0
+      })
     }
   },
   computed: {
@@ -72,27 +75,15 @@ export default {
   },
   mounted: function() {
     console.log('mounted')
-    window.addEventListener('scroll', function(e) {
-      console.log('scroll', window.scrollY)
-      // last_known_scroll_position = window.scrollY;
-
-      d3_select('.fixed-corner')
-        .style('left', window.scrollX + 'px')
-        .style('top', window.scrollY + 'px')
-
-      d3_select('.fixed-row')
-        .style('top', window.scrollY + 'px')
-
-      d3_select('.fixed-col')
-        .style('left', window.scrollX + 'px')
-    })
+    d3_select('.grid-inner')
+      .call(this.drag)
   }
 }
 </script>
 
 <style>
 body {
-  margin: 0;
+  overflow: hidden;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -107,67 +98,82 @@ body {
   /* display: flex; */
 }
 
-#sidebar {
+.sidebar {
   position: fixed;
+  width: 200px;
+  z-index: 200;
   top: 0;
   bottom: 0;
-  left: 0;
-  width: 200px;
-  background-color: #faa;
-  z-index: 200;
+  background-color: #fff;
 }
 
-#scrollable-table {
-  position: relative;
+.scrollable-table {
   margin-left: 200px;
+  position: relative;
+}
+
+.scrollable-table svg {
+  overflow: hidden;
 }
 
 .fixed-corner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100px;
   height: 100px;
+  width: 100px;
   background-color: white;
   z-index: 150;
-  border: 1px solid #ddd;
+  position: absolute;
 }
-
 .fixed-row {
+  z-index: 100;
+  background-color: #fff;
   position: relative;
 }
 
-.fixed-row .fixed-row-cell {
+.fixed-row-cell {
   position: absolute;
-  line-height: 100px;
+  top: 0;
   width: 100px;
   text-align: center;
-  border: 1px solid #ddd;
-  background-color: white;
-  z-index: 100;
+  line-height: 100px;
 }
 
 .fixed-col {
+  width: 100px;
+  z-index: 100;
+  background-color: #fff;
   position: relative;
 }
 
 .fixed-col-cell {
-  position: absolute;
-  line-height: 100px;
   width: 100px;
   text-align: center;
-  border: 1px solid #ddd;
-  background-color: white;
-  z-index: 100;
+  line-height: 100px;
 }
 
 .grid-wrapper {
-  position: relative;
+  width: 2000px;
+  height: 1000px;
+  background-color: #eee;
+  position: absolute;
+  top: 100px;
+  left: 100px;
 }
 
 .grid-inner {
-  position: relative;
-  left: 100px;
-  top: 100px;
+  position: absolute;
+}
+
+.grid-inner svg {
+  width: 2000px;
+  height: 1000px;
+}
+
+.grid-cell {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #fff;
+  text-align: center;
+  line-height: 100px;
 }
 </style>
