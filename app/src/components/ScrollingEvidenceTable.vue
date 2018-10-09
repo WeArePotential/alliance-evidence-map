@@ -19,10 +19,18 @@
       <div class="grid-inner" :style="{left: (leftHeaderWidth) + 'px', top: (topHeaderHeight) + 'px'}">
         <svg v-bind:width="numCols * cellSize" v-bind:height="numRows * cellSize"  v-if="outcomeGroups.length > 0">
           <g>
-            <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * 100})`">
-              <g v-for="(d, i) in outcome.interventions" v-bind:transform="`translate(${i * 100}, 0)`" v-on:click="action('selectCell', {outcome: outcome.outcome, intervention: d.intervention})">
+            <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
+              <g v-for="(d, i) in outcome.interventions" v-bind:transform="`translate(${i * cellSize}, 0)`" v-on:click="action('selectCell', {outcome: outcome.outcome, intervention: d.intervention})">
                 <Barchart :data="d.data" :size="cellSize" :maxStudies="maxStudies" />
               </g>
+            </g>
+          </g>
+          <g class="grid-lines">
+            <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
+              <line class="grid-line" :x2="outcome.interventions.length * cellSize" />
+            </g>
+            <g v-for="(intervention, i) in interventions" v-bind:transform="`translate(${i * cellSize})`">
+              <line class="grid-line" :y2="outcomes.length * cellSize" />
             </g>
           </g>
         </svg>
@@ -95,6 +103,8 @@ export default {
   height: 100px;
   background-color: white;
   z-index: 150;
+  border-right: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
   /* border: 1px solid #ddd; */
 }
 
@@ -111,7 +121,8 @@ export default {
   height: 100px;
   width: 100px;
   text-align: center;
-  /* border: 1px solid #ddd; */
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #aaa;
   background-color: white;
 
   display: flex;
@@ -122,11 +133,8 @@ export default {
 }
 
 .fixed-col {
-  /* position: relative; */
-
   position: fixed;
   z-index: 100;
-  /* top: 150px; */
 }
 
 .fixed-col-cell {
@@ -134,7 +142,8 @@ export default {
   height: 100px;
   width: 100px;
   text-align: center;
-  /* border: 1px solid #ddd; */
+  border-right: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
   background-color: white;
   z-index: 100;
   display: flex;
@@ -152,65 +161,9 @@ export default {
   /* top: 100px; */
 }
 
-/* .fixed-corner {
-  height: 100px;
-  width: 100px;
-  background-color: white;
-  z-index: 150;
-  position: absolute;
+.grid-line {
+  stroke: #eee;
+  shape-rendering: crispEdges;
 }
-.fixed-row {
-  z-index: 100;
-  background-color: #fff;
-  position: relative;
-}
-
-.fixed-row-cell {
-  position: absolute;
-  top: 0;
-  width: 100px;
-  text-align: center;
-  height: 150px;
-}
-
-.fixed-col {
-  width: 100px;
-  z-index: 100;
-  background-color: #fff;
-  position: relative;
-}
-
-.fixed-col-cell {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-}
-
-.grid-wrapper {
-  width: 2000px;
-  height: 1000px;
-  background-color: #eee;
-  position: absolute;
-  top: 150px;
-  left: 100px;
-}
-
-.grid-inner {
-  position: absolute;
-}
-
-.grid-inner svg {
-  width: 2000px;
-  height: 1000px;
-}
-
-.grid-cell {
-  display: inline-block;
-  width: 100px;
-  height: 100px;
-  border: 1px solid #fff;
-  text-align: center;
-  line-height: 100px;
-} */
 
 </style>

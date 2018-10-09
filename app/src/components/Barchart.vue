@@ -1,8 +1,11 @@
 <template>
-  <g :transform="`translate(0, ${0.5 * size})`">
-    <rect v-for="bar in positiveBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#137752', opacity: bar.opacity}"/>
-    <line x1="10" :x2="size - 10" />
-    <rect v-for="bar in negativeBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#e7040f', opacity: bar.opacity}"/>
+  <g v-if="nonZero" class="cell">
+    <rect class="background" :width="size" :height="size" />
+    <g :transform="`translate(0, ${0.5 * size})`">
+      <rect v-for="bar in positiveBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#137752', opacity: bar.opacity}"/>
+      <line x1="10" :x2="size - 10" />
+      <rect v-for="bar in negativeBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#e7040f', opacity: bar.opacity}"/>
+    </g>
   </g>
 </template>
 
@@ -18,11 +21,11 @@ export default {
     maxStudies: Number
   },
   computed: {
-    radius: function() {
-      return this.data.for.high.length * 20
+    nonZero: function() {
+      return this.data.for.low.length + this.data.for.moderate.length + this.data.for.high.length + this.data.against.low.length + this.data.against.moderate.length + this.data.against.high.length > 0
     },
     positiveBars: function() {
-      let yScale = scaleLinear().domain([0, this.maxStudies]).range([0, 0.75 * this.size])
+      let yScale = scaleLinear().domain([0, this.maxStudies]).range([0, 0.4 * this.size])
       let xScale = scaleBand().domain([0, 1, 2]).range([0, this.size]).paddingInner(0.05).paddingOuter(0.5)
 
       return [
@@ -32,7 +35,7 @@ export default {
       ]
     },
     negativeBars: function() {
-      let yScale = scaleLinear().domain([0, this.maxStudies]).range([0, 0.75 * this.size])
+      let yScale = scaleLinear().domain([0, this.maxStudies]).range([0, 0.4 * this.size])
       let xScale = scaleBand().domain([0, 1, 2]).range([0, this.size]).paddingInner(0.05).paddingOuter(0.5)
 
       return [
@@ -47,6 +50,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+g {
+  cursor: pointer;
+}
+rect.background {
+  fill: white;
+}
+g.cell:hover rect {
+  fill: #eee;
+}
 line {
   stroke: #ddd;
   shape-rendering: crispEdges;
