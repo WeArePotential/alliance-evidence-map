@@ -10,27 +10,38 @@
     </div>
 
     <div class="fixed-col" :style="{left: sidebarWidth + 'px'}">
-      <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * 100) + 'px', width: leftHeaderWidth + 'px'}">
-        <div class="b">{{outcome.Outcome}}</div>
+      <div class="outcomes">
+        <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * 100) + 'px', left: categoryWidth + 'px', width: (leftHeaderWidth - categoryWidth) + 'px'}">
+          <div class="b">{{outcome.Outcome}}</div>
+        </div>
+      </div>
+      <div class="headers">
+        <div class="header-container" v-for="header in outcomeHeaders" :style="{top: (-innerOffsetY + header.y) + 'px'}">
+          <svg :width="categoryWidth" :height="header.size">
+            <text :transform="`rotate(-90)translate(${-0.5 * header.size}, 18)`">{{header.name}}</text>
+          </svg>
+        </div>
       </div>
     </div>
 
     <div class="grid-wrapper">
       <div class="grid-inner" :style="{left: (leftHeaderWidth) + 'px', top: (topHeaderHeight) + 'px'}">
         <svg v-bind:width="numCols * cellSize" v-bind:height="numRows * cellSize"  v-if="outcomeGroups.length > 0">
-          <g>
+          <g class="cells">
+            <!-- <g v-for="outcomeGroup in outcomeGroups"  -->
             <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
               <g v-for="(d, i) in outcome.interventions" v-bind:transform="`translate(${i * cellSize}, 0)`" v-on:click="action('selectCell', {outcome: outcome.outcome, intervention: d.intervention})">
                 <Barchart :data="d.data" :size="cellSize" :maxStudies="maxStudies" />
               </g>
             </g>
           </g>
+
           <g class="grid-lines">
             <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
-              <line class="grid-line" :x2="outcome.interventions.length * cellSize" />
+              <line class="grid-line" :x2="numCols * cellSize" />
             </g>
             <g v-for="(intervention, i) in interventions" v-bind:transform="`translate(${i * cellSize})`">
-              <line class="grid-line" :y2="outcomes.length * cellSize" />
+              <line class="grid-line" :y2="numRows * cellSize" />
             </g>
           </g>
         </svg>
@@ -39,6 +50,14 @@
   </div>
 </template>
 
+
+<!-- <g class="cells">
+  <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
+    <g v-for="(d, i) in outcome.interventions" v-bind:transform="`translate(${i * cellSize}, 0)`" v-on:click="action('selectCell', {outcome: outcome.outcome, intervention: d.intervention})">
+      <Barchart :data="d.data" :size="cellSize" :maxStudies="maxStudies" />
+    </g>
+  </g>
+</g> -->
 
 <script>
 import {drag as d3_drag} from 'd3-drag'
@@ -62,7 +81,8 @@ export default {
   data: function() {
     return {
       topHeaderHeight: 180,
-      leftHeaderWidth: 200,
+      leftHeaderWidth: 240,
+      categoryWidth: 30,
       innerOffsetX: 0,
       innerOffsetY: 0,
       cellSize: 100
@@ -70,17 +90,29 @@ export default {
   },
   computed: {
     numRows: function() {
-      // console.log('outcomes', this.outcomes)
       return this.outcomes ? this.outcomes.length : 0
     },
     numCols: function() {
       return this.interventions.length
+    },
+    outcomeHeaders: function() {
+      let y = this.topHeaderHeight
+      let headers = []
+      this.outcomeGroups.forEach(g => {
+        let h = g.outcomes.length * this.cellSize
+        headers.push({
+          name: g.name.toUpperCase(),
+          size: h,
+          y: y
+        })
+        y += h
+      })
+      return headers
     }
   },
   mounted: function() {
     let self = this
     window.addEventListener('scroll', function() {
-      console.log('scroll')
       self.innerOffsetX = window.scrollX
       self.innerOffsetY = window.scrollY
     })
@@ -149,6 +181,20 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.header-container {
+  position: absolute;
+}
+
+.header-container svg {
+  background-color: #aaa;
+  border: 2px solid white;
+}
+
+.header-container svg text {
+  font-weight: bold;
+  fill: white;
 }
 
 .grid-wrapper {
