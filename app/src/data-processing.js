@@ -89,6 +89,7 @@ function getOutcomeInterventionLU(outcomes, interventions, studies) {
 
 function getOutcomeInterventionArray(lu, outcomes, interventions, oCats, iCats) {
   // Only really needed for getting the outcome groups, so this can be simplified
+  // Make similar to getInterventionCategoryGroups
   let a = []
 
   oCats.forEach(oCat => {
@@ -122,6 +123,28 @@ function getOutcomeInterventionArray(lu, outcomes, interventions, oCats, iCats) 
   return a
 }
 
+function getInterventionCategoryGroups(interventions, iCats) {
+  let a = []
+
+  iCats.forEach(iCat => {
+    let group = {
+      name: iCat,
+      interventions: []
+    }
+
+    let interventionsInCategory = interventions.filter(d => d.Category === iCat)
+
+    interventionsInCategory.forEach(intervention => {
+      group.interventions.push(intervention.Intervention)
+    })
+
+    a.push(group)
+  })
+
+  // console.log('interventionCategories', a)
+  return a
+}
+
 function getMaxStudies(outcomeGroups) {
   let max = 0
   outcomeGroups.forEach(g => {
@@ -142,4 +165,4 @@ function getMaxStudies(outcomeGroups) {
   return max
 }
 
-export {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray, getMaxStudies}
+export {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray, getInterventionCategoryGroups, getMaxStudies}

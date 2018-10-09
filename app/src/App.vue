@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="sans-serif">
     <Sidebar :width="sidebarWidth" :outcomeInterventionLU="outcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU"></Sidebar>
-    <ScrollingEvidenceTable :interventions="interventions" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="outcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" />
+    <ScrollingEvidenceTable :interventions="interventions" :interventionCategoryGroups="interventionCategoryGroups" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="outcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import ScrollingEvidenceTable from './components/ScrollingEvidenceTable.vue'
 import Sidebar from './components/Sidebar.vue'
 import {csv as d3_csv} from 'd3-request'
 
-import {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray, getMaxStudies} from './data-processing'
+import {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray, getInterventionCategoryGroups, getMaxStudies} from './data-processing'
 
 export default {
   name: 'app',
@@ -24,6 +24,8 @@ export default {
       studiesLU: {},
       outcomes: [],
       interventions: [],
+      interventionCategories: [],
+      interventionCategoryGroups: [],
       outcomeInterventionLU: {},
       outcomeGroups: [],
       maxStudies: 0,
@@ -38,6 +40,7 @@ export default {
         d3_csv('data/evidence-data.csv', (err, studies) => {
           this.interventions = interventions
           this.interventionCategories = getCategories(this.interventions)
+          this.interventionCategoryGroups = getInterventionCategoryGroups(this.interventions, this.interventionCategories)
           this.outcomes = outcomes
           this.outcomeCategories = getCategories(this.outcomes)
           this.studies = getStudies(studies)

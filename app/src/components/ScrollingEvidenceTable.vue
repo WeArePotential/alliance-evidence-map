@@ -4,22 +4,31 @@
     <div class="fixed-corner" :style="{left: sidebarWidth + 'px', width: leftHeaderWidth + 'px', height: topHeaderHeight + 'px'}"></div>
 
     <div class="fixed-row" :style="{left: sidebarWidth + 'px'}">
-      <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * 100) + 'px', height: topHeaderHeight + 'px'}">
-        <div class="b">{{intervention.Intervention}}</div>
+      <div class="headers">
+        <div class="header-container" v-for="header in interventionHeaders" :style="{left: (-innerOffsetX + header.x) + 'px'}">
+          <svg :height="categoryWidth" :width="header.size - 3">
+            <text :transform="`translate(${0.5 * header.size}, 18)`">{{header.name}}</text>
+          </svg>
+        </div>
+      </div>
+      <div class="interventions">
+        <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * 100) + 'px', top: categoryWidth + 'px', height: (topHeaderHeight - categoryWidth) + 'px'}">
+          <div class="b">{{intervention.Intervention}}</div>
+        </div>
       </div>
     </div>
 
     <div class="fixed-col" :style="{left: sidebarWidth + 'px'}">
-      <div class="outcomes">
-        <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * 100) + 'px', left: categoryWidth + 'px', width: (leftHeaderWidth - categoryWidth) + 'px'}">
-          <div class="b">{{outcome.Outcome}}</div>
-        </div>
-      </div>
       <div class="headers">
         <div class="header-container" v-for="header in outcomeHeaders" :style="{top: (-innerOffsetY + header.y) + 'px'}">
           <svg :width="categoryWidth" :height="header.size - 3">
             <text :transform="`rotate(-90)translate(${-0.5 * header.size}, 18)`">{{header.name}}</text>
           </svg>
+        </div>
+      </div>
+      <div class="outcomes">
+        <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * 100) + 'px', left: categoryWidth + 'px', width: (leftHeaderWidth - categoryWidth) + 'px'}">
+          <div class="b">{{outcome.Outcome}}</div>
         </div>
       </div>
     </div>
@@ -63,6 +72,7 @@ export default {
   props: {
     outcomes: Array,
     interventions: Array,
+    interventionCategoryGroups: Array,
     outcomeGroups: Array,
     outcomeInterventionLU: Object,
     action: Function,
@@ -71,7 +81,7 @@ export default {
   },
   data: function() {
     return {
-      topHeaderHeight: 180,
+      topHeaderHeight: 200,
       leftHeaderWidth: 240,
       categoryWidth: 30,
       innerOffsetX: 0,
@@ -98,6 +108,21 @@ export default {
         })
         y += h
       })
+      return headers
+    },
+    interventionHeaders: function() {
+      let x = this.leftHeaderWidth
+      let headers = []
+      this.interventionCategoryGroups.forEach(g => {
+        let w = g.interventions.length * this.cellSize
+        headers.push({
+          name: g.name.toUpperCase(),
+          size: w,
+          x: x
+        })
+        x += w
+      })
+      console.log('headers', headers)
       return headers
     }
   },
