@@ -88,6 +88,7 @@ function getOutcomeInterventionLU(outcomes, interventions, studies) {
 }
 
 function getOutcomeInterventionArray(lu, outcomes, interventions, oCats, iCats) {
+  // Only really needed for getting the outcome groups, so this can be simplified
   let a = []
 
   oCats.forEach(oCat => {
@@ -112,8 +113,6 @@ function getOutcomeInterventionArray(lu, outcomes, interventions, oCats, iCats) 
         outcome: outcome.Outcome,
         interventions: interventionList
       })
-      // console.log(outcome.Outcome)
-      // group.outcomes.push(lu[outcome.Outcome])
     })
 
     a.push(group)

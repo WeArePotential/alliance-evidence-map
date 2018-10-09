@@ -17,7 +17,7 @@
       </div>
       <div class="headers">
         <div class="header-container" v-for="header in outcomeHeaders" :style="{top: (-innerOffsetY + header.y) + 'px'}">
-          <svg :width="categoryWidth" :height="header.size">
+          <svg :width="categoryWidth" :height="header.size - 3">
             <text :transform="`rotate(-90)translate(${-0.5 * header.size}, 18)`">{{header.name}}</text>
           </svg>
         </div>
@@ -28,16 +28,15 @@
       <div class="grid-inner" :style="{left: (leftHeaderWidth) + 'px', top: (topHeaderHeight) + 'px'}">
         <svg v-bind:width="numCols * cellSize" v-bind:height="numRows * cellSize"  v-if="outcomeGroups.length > 0">
           <g class="cells">
-            <!-- <g v-for="outcomeGroup in outcomeGroups"  -->
-            <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
-              <g v-for="(d, i) in outcome.interventions" v-bind:transform="`translate(${i * cellSize}, 0)`" v-on:click="action('selectCell', {outcome: outcome.outcome, intervention: d.intervention})">
-                <Barchart :data="d.data" :size="cellSize" :maxStudies="maxStudies" />
+            <g v-for="(outcome, i) in outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
+              <g v-for="(intervention, j) in interventions" v-bind:transform="`translate(${j * cellSize}, 0)`" v-on:click="action('selectCell', {outcome: outcome.Outcome, intervention: intervention.Intervention})">
+                <Barchart :data="outcomeInterventionLU[outcome.Outcome][intervention.Intervention]" :size="cellSize" :maxStudies="maxStudies" />
               </g>
             </g>
           </g>
 
           <g class="grid-lines">
-            <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
+            <g v-for="(outcome, i) in outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
               <line class="grid-line" :x2="numCols * cellSize" />
             </g>
             <g v-for="(intervention, i) in interventions" v-bind:transform="`translate(${i * cellSize})`">
@@ -49,15 +48,6 @@
     </div>
   </div>
 </template>
-
-
-<!-- <g class="cells">
-  <g v-for="(outcome, i) in outcomeGroups[0].outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
-    <g v-for="(d, i) in outcome.interventions" v-bind:transform="`translate(${i * cellSize}, 0)`" v-on:click="action('selectCell', {outcome: outcome.outcome, intervention: d.intervention})">
-      <Barchart :data="d.data" :size="cellSize" :maxStudies="maxStudies" />
-    </g>
-  </g>
-</g> -->
 
 <script>
 import {drag as d3_drag} from 'd3-drag'
@@ -74,6 +64,7 @@ export default {
     outcomes: Array,
     interventions: Array,
     outcomeGroups: Array,
+    outcomeInterventionLU: Object,
     action: Function,
     sidebarWidth: Number,
     maxStudies: Number
@@ -189,12 +180,13 @@ export default {
 
 .header-container svg {
   background-color: #aaa;
-  border: 2px solid white;
+  /* border-bottom: 12px solid white; */
 }
 
 .header-container svg text {
   font-weight: bold;
   fill: white;
+  text-anchor: middle;
 }
 
 .grid-wrapper {

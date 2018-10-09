@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="sans-serif">
     <Sidebar :width="sidebarWidth" :outcomeInterventionLU="outcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU"></Sidebar>
-    <ScrollingEvidenceTable :interventions="interventions" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" />
+    <ScrollingEvidenceTable :interventions="interventions" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="outcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" />
   </div>
 </template>
 
@@ -27,7 +27,6 @@ export default {
       outcomeInterventionLU: {},
       outcomeGroups: [],
       maxStudies: 0,
-
 
       sidebarWidth: 400,
       selectedCell: {intervention: null, outcome: null}
