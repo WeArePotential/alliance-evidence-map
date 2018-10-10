@@ -1,5 +1,6 @@
 import uniq from 'lodash/uniq'
 import filter from 'lodash/filter'
+import includes from 'lodash/includes'
 
 function getOutcomes(outcomes) {
   let ret = outcomes.map(d => d.Outcome)
@@ -41,11 +42,14 @@ function getStudies(ivs, ocs, data) {
       date: d.Date,
       url: d.Link,
       country: d.Country,
-      population: d.Population,
 
       evidenceAgainst: d['Evidence against the intervention?'][0].toUpperCase() === 'Y',
       strengthOfEvidence: d['Strength of Evidence'].toLowerCase()
     }
+
+    let population = d.Population.split(';')
+    population = population.map(d => d.trim())
+    study.population = population
 
     let interventions = d.Interventions.split(';')
     interventions = interventions.map(d => ivlu[+d])
@@ -188,12 +192,16 @@ function getFilteredStudies(studies, filters) {
     let include = true
 
     filters.filterIds.forEach(id => {
-      console.log('filtering on', id)
       if(filters[id] === 'All')
         return
 
-      if(study[id] !== filters[id])
-        include = false
+      if(id === 'population') {
+        if(!includes(study[id], filters[id]))
+          include = false
+      } else {
+        if(study[id] !== filters[id])
+          include = false
+      }
     })
 
     return include

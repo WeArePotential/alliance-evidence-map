@@ -39,9 +39,15 @@ export default {
       return countries
     },
     populations: function() {
-      let populations = uniq(this.studies.map(d => d.population))
-      populations.unshift('All')
-      return populations
+      let population = []
+      this.studies.forEach(d => {
+        d.population.forEach(p => {
+          population.push(p)
+        })
+      })
+      population = uniq(population)
+      population.unshift('All')
+      return population
     }
   }
 }
