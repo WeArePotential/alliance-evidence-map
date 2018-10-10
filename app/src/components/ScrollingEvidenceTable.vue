@@ -13,7 +13,7 @@
       </div>
       <div class="interventions">
         <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * 100) + 'px', top: categoryWidth + 'px', height: (topHeaderHeight - categoryWidth) + 'px'}">
-          <div class="b">{{intervention.Intervention}}</div>
+          <div class="b">{{intervention}}</div>
         </div>
       </div>
     </div>
@@ -28,18 +28,19 @@
       </div>
       <div class="outcomes">
         <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * 100) + 'px', left: categoryWidth + 'px', width: (leftHeaderWidth - categoryWidth) + 'px'}">
-          <div class="b">{{outcome.Outcome}}</div>
+          <div class="b">{{outcome}}</div>
         </div>
       </div>
     </div>
 
-    <div class="grid-wrapper">
+
+     <div class="grid-wrapper">
       <div class="grid-inner" :style="{left: (leftHeaderWidth) + 'px', top: (topHeaderHeight) + 'px'}">
         <svg v-bind:width="numCols * cellSize" v-bind:height="numRows * cellSize"  v-if="outcomeGroups.length > 0">
           <g class="cells">
             <g v-for="(outcome, i) in outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
-              <g v-for="(intervention, j) in interventions" v-bind:transform="`translate(${j * cellSize}, 0)`" v-on:click="action('selectCell', {outcome: outcome.Outcome, intervention: intervention.Intervention})">
-                <Barchart :data="outcomeInterventionLU[outcome.Outcome][intervention.Intervention]" :size="cellSize" :maxStudies="maxStudies" />
+              <g v-for="(intervention, j) in interventions" v-bind:transform="`translate(${j * cellSize}, 0)`" v-on:click="action('selectCell', {outcome: outcome, intervention: intervention})">
+                <Barchart :data="outcomeInterventionLU[outcome][intervention]" :size="cellSize" :maxStudies="maxStudies" />
               </g>
             </g>
           </g>
@@ -72,7 +73,7 @@ export default {
   props: {
     outcomes: Array,
     interventions: Array,
-    interventionCategoryGroups: Array,
+    interventionGroups: Array,
     outcomeGroups: Array,
     outcomeInterventionLU: Object,
     action: Function,
@@ -100,7 +101,7 @@ export default {
       let y = this.topHeaderHeight
       let headers = []
       this.outcomeGroups.forEach(g => {
-        let h = g.outcomes.length * this.cellSize
+        let h = g.size * this.cellSize
         headers.push({
           name: g.name.toUpperCase(),
           size: h,
@@ -108,13 +109,14 @@ export default {
         })
         y += h
       })
+      console.log('headers', headers)
       return headers
     },
     interventionHeaders: function() {
       let x = this.leftHeaderWidth
       let headers = []
-      this.interventionCategoryGroups.forEach(g => {
-        let w = g.interventions.length * this.cellSize
+      this.interventionGroups.forEach(g => {
+        let w = g.size * this.cellSize
         headers.push({
           name: g.name.toUpperCase(),
           size: w,
@@ -122,7 +124,6 @@ export default {
         })
         x += w
       })
-      console.log('headers', headers)
       return headers
     }
   },

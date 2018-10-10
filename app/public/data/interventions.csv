@@ -1,18 +1,18 @@
-Category,Intervention
-"HIV prevention, care and treatment interventions",Condoms (male and female) and lubricant programming
-"HIV prevention, care and treatment interventions","HIV care, testing and treatment (incl. adherence and monitoring) services"
-"HIV prevention, care and treatment interventions",Male circumcision interventions
-"HIV prevention, care and treatment interventions",Pre-exposure prophylaxis (PrEP) interventions
-"HIV prevention, care and treatment interventions",Prevention of mother-to-child transmission interventions
-Complementary health services interventions,Interventions targeting the prevention and management of coinfections and comorbidities (incl. TB/HIV collaborative interventions)
-Complementary health services interventions,Diagnosis and treatment of sexually transmitted infections (other than HIV) and other sexual health services
-Complementary health services interventions,"Prevention, diagnosis and treatment of opportunistic infections interventions"
-Complementary health services interventions,Needle and syringe programs
-Complementary health services interventions,Opioid substitution therapy and other drug dependence treatment / Overdose prevention and management programs
-Complementary health services interventions,Counselling and psycho-social support interventions
-Education and training interventions,"Mobilization, education and norms change interventions (incl. behavioural and empowerment interventions)"
-Education and training interventions,"Interventions addressing stigma, discrimination and violence, including gender-based violence prevention and treatment programs"
-Structural interventions,"Interventions aimed at removing human rights- and gender-related barriers (incl. Legal services interventions)"
-Structural interventions,Socioeconomic approaches
-Structural interventions,Interventions aimed to influence HIV-related laws policies and practices of policy makers
-Other interventions,Other interventions
+Code,Category,Intervention
+1,"HIV prevention, care and treatment interventions",Condoms (male and female) and lubricant programming
+2,"HIV prevention, care and treatment interventions","HIV care, testing and treatment (incl. adherence and monitoring) services"
+3,"HIV prevention, care and treatment interventions",Male circumcision interventions
+4,"HIV prevention, care and treatment interventions",Pre-exposure prophylaxis (PrEP) interventions
+5,"HIV prevention, care and treatment interventions",Prevention of mother-to-child transmission interventions
+6,Complementary health services interventions,Interventions targeting the prevention and management of coinfections and comorbidities (incl. TB/HIV collaborative interventions)
+7,Complementary health services interventions,Diagnosis and treatment of sexually transmitted infections (other than HIV) and other sexual health services
+8,Complementary health services interventions,"Prevention, diagnosis and treatment of opportunistic infections interventions"
+9,Complementary health services interventions,Needle and syringe programs
+10,Complementary health services interventions,Opioid substitution therapy and other drug dependence treatment / Overdose prevention and management programs
+11,Complementary health services interventions,Counselling and psycho-social support interventions
+12,Education and training interventions,"Mobilization, education and norms change interventions (incl. behavioural and empowerment interventions)"
+13,Education and training interventions,"Interventions addressing stigma, discrimination and violence, including gender-based violence prevention and treatment programs"
+14,Structural interventions,Interventions aimed at removing human rights- and gender-related barriers (incl. Legal services interventions)
+15,Structural interventions,Socioeconomic approaches
+16,Structural interventions,Interventions aimed to influence HIV-related laws policies and practices of policy makers
+17,Other interventions,Other interventions

@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="sans-serif">
     <Sidebar :width="sidebarWidth" :outcomeInterventionLU="outcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU"></Sidebar>
-    <ScrollingEvidenceTable :interventions="interventions" :interventionCategoryGroups="interventionCategoryGroups" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="outcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" />
+    <ScrollingEvidenceTable :interventions="interventions" :interventionGroups="interventionGroups" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="outcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import ScrollingEvidenceTable from './components/ScrollingEvidenceTable.vue'
 import Sidebar from './components/Sidebar.vue'
 import {csv as d3_csv} from 'd3-request'
 
-import {getStudies, getStudiesLU, getCategories, getOutcomeInterventionLU, getOutcomeInterventionArray, getInterventionCategoryGroups, getMaxStudies} from './data-processing'
+import {getOutcomes, getInterventions, getOutcomeGroups, getInterventionGroups, getStudies, getStudiesLU, getOutcomeInterventionLU, getMaxStudies} from './data-processing'
 
 export default {
   name: 'app',
@@ -20,14 +20,14 @@ export default {
   },
   data: function() {
     return {
-      studies: [],
-      studiesLU: {},
       outcomes: [],
-      interventions: [],
-      interventionCategories: [],
-      interventionCategoryGroups: [],
-      outcomeInterventionLU: {},
       outcomeGroups: [],
+      interventions: [],
+      interventionGroups: [],
+
+      studiesLU: [],
+      outcomeInterventionLU: {},
+
       maxStudies: 0,
 
       sidebarWidth: 400,
@@ -35,23 +35,20 @@ export default {
     }
   },
   mounted: function() {
-    d3_csv('data/interventions.csv', (err, interventions) => {
-      d3_csv('data/outcomes.csv', (err, outcomes) => {
-        d3_csv('data/evidence-data.csv', (err, studies) => {
-          this.interventions = interventions
-          this.interventionCategories = getCategories(this.interventions)
-          this.interventionCategoryGroups = getInterventionCategoryGroups(this.interventions, this.interventionCategories)
-          this.outcomes = outcomes
-          this.outcomeCategories = getCategories(this.outcomes)
-          this.studies = getStudies(studies)
-          this.studiesLU = getStudiesLU(this.studies)
+    d3_csv('data/interventions.csv', (err, interventionsCsv) => {
+      d3_csv('data/outcomes.csv', (err, outcomesCsv) => {
+        d3_csv('data/studies.csv', (err, studiesCsv) => {
+          this.outcomes = getOutcomes(outcomesCsv)
+          this.outcomeGroups = getOutcomeGroups(outcomesCsv)
 
-          this.outcomeInterventionLU = getOutcomeInterventionLU(outcomes, interventions, studies)
-          this.outcomeGroups = getOutcomeInterventionArray(this.outcomeInterventionLU, outcomes, interventions, this.outcomeCategories, this.interventionCategories)
+          this.interventions = getInterventions(interventionsCsv)
+          this.interventionGroups = getInterventionGroups(interventionsCsv)
 
-          this.maxStudies = getMaxStudies(this.outcomeGroups)
+          let studies = getStudies(interventionsCsv, outcomesCsv, studiesCsv)
+          this.studiesLU = getStudiesLU(studies)
+          this.outcomeInterventionLU = getOutcomeInterventionLU(this.interventions, this.outcomes, studies)
 
-          console.log(err, studies, 'studies lu', this.studiesLU)
+          this.maxStudies = getMaxStudies(this.interventions, this.outcomes, this.outcomeInterventionLU)
         })
       })
     })
