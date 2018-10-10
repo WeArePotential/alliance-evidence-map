@@ -1,6 +1,7 @@
 <template>
   <div id="sidebar" :style="{width: width + 'px'}">
-    <div v-if="selectedCell.intervention !== null">
+    <FilterMenu :studies="studies" :action="action" />
+    <div class="info" v-if="selectedCell.intervention !== null">
       <div class="section">
         <div class="heading">INTERVENTION</div>
         <div class="content">{{selectedCell.intervention}}</div>
@@ -27,22 +28,23 @@
 
 
 <script>
+import FilterMenu from './FilterMenu.vue'
 import StudyList from './StudyList.vue'
 
 export default {
   name: 'Sidebar',
   components: {
+    FilterMenu,
     StudyList
   },
   props: {
     width: Number,
     outcomeInterventionLU: Object,
     selectedCell: Object,
-    studiesLU: Array
+    studiesLU: Array,
+    studies: Array,
+    action: Function
   },
-  // beforeCreate: function() {
-  //   // console.log('beforeCreate', selectedCell)
-  // },
   data: function() {
     return {
     }

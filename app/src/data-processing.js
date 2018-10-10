@@ -183,5 +183,33 @@ function getMaxStudies(ivs, ocs, lu) {
   return max
 }
 
+function getFilteredStudies(studies, filters) {
+  let filtered = filter(studies, study => {
+    let include = true
 
-export {getOutcomes, getInterventions, getOutcomeGroups, getInterventionGroups, getStudies, getStudiesLU, getOutcomeInterventionLU, getMaxStudies}
+    filters.filterIds.forEach(id => {
+      console.log('filtering on', id)
+      if(filters[id] === 'All')
+        return
+
+      if(study[id] !== filters[id])
+        include = false
+    })
+
+    return include
+  })
+
+  return filtered
+}
+
+export {
+  getOutcomes,
+  getInterventions,
+  getOutcomeGroups,
+  getInterventionGroups,
+  getStudies,
+  getStudiesLU,
+  getOutcomeInterventionLU,
+  getMaxStudies,
+  getFilteredStudies
+}

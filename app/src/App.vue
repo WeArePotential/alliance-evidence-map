@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="sans-serif">
-    <Sidebar :width="sidebarWidth" :outcomeInterventionLU="outcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU"></Sidebar>
-    <ScrollingEvidenceTable :interventions="interventions" :interventionGroups="interventionGroups" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="outcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" />
+    <Sidebar :width="sidebarWidth" :outcomeInterventionLU="filteredOutcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU" :studies="studies" :action="action"></Sidebar>
+    <ScrollingEvidenceTable :interventions="interventions" :interventionGroups="interventionGroups" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="filteredOutcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import ScrollingEvidenceTable from './components/ScrollingEvidenceTable.vue'
 import Sidebar from './components/Sidebar.vue'
 import {csv as d3_csv} from 'd3-request'
 
-import {getOutcomes, getInterventions, getOutcomeGroups, getInterventionGroups, getStudies, getStudiesLU, getOutcomeInterventionLU, getMaxStudies} from './data-processing'
+import {getOutcomes, getInterventions, getOutcomeGroups, getInterventionGroups, getStudies, getStudiesLU, getOutcomeInterventionLU, getMaxStudies, getFilteredStudies} from './data-processing'
 
 export default {
   name: 'app',
@@ -25,13 +25,20 @@ export default {
       interventions: [],
       interventionGroups: [],
 
+      studies: [],
       studiesLU: [],
       outcomeInterventionLU: {},
 
       maxStudies: 0,
 
       sidebarWidth: 400,
-      selectedCell: {intervention: null, outcome: null}
+      selectedCell: {intervention: null, outcome: null},
+
+      filters: {
+        filterIds: ['country', 'population'],
+        country: 'All',
+        population: 'All'
+      }
     }
   },
   mounted: function() {
@@ -44,14 +51,21 @@ export default {
           this.interventions = getInterventions(interventionsCsv)
           this.interventionGroups = getInterventionGroups(interventionsCsv)
 
-          let studies = getStudies(interventionsCsv, outcomesCsv, studiesCsv)
-          this.studiesLU = getStudiesLU(studies)
-          this.outcomeInterventionLU = getOutcomeInterventionLU(this.interventions, this.outcomes, studies)
+          this.studies = getStudies(interventionsCsv, outcomesCsv, studiesCsv)
+          this.studiesLU = getStudiesLU(this.studies)
+          this.outcomeInterventionLU = getOutcomeInterventionLU(this.interventions, this.outcomes, this.studies)
 
           this.maxStudies = getMaxStudies(this.interventions, this.outcomes, this.outcomeInterventionLU)
         })
       })
     })
+  },
+  computed: {
+    filteredOutcomeInterventionLU: function() {
+      // let filteredStudies = this.studies
+      let filteredStudies = getFilteredStudies(this.studies, this.filters)
+      return getOutcomeInterventionLU(this.interventions, this.outcomes, filteredStudies)
+    }
   },
   methods: {
     action: function(type, args) {
@@ -59,6 +73,9 @@ export default {
       switch(type) {
       case 'selectCell':
         this.selectedCell = args
+        break
+      case 'setFilter':
+        this.filters[args.filter] = args.value
         break
       default:
         console.log('Unknown action', type)
