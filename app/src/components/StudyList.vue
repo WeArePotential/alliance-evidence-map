@@ -1,33 +1,52 @@
 <template>
-  <div class="study-list">
-    <div class="study" v-for="id in ids">
-      <div class="f3">{{studiesLU[id].title}}</div>
-      <div class="summary">{{studiesLU[id].summary}}</div>
-      <div>Date: {{studiesLU[id].date}}</div>
-      <div>Orgs involved: {{studiesLU[id].orgsInvolved}}</div>
-      <div><a :href="studiesLU[id].url">External link</a></div>
-
+  <div v-if="ids.length > 0" class="study-list">
+    <div v-on:click="handleClick">
+      <div class="heading noselect">
+        <span><span v-if="open">-</span><span v-else>+</span></span>
+        <span> {{title}} ({{ids.length}} <span v-if="ids.length === 1">study</span><span v-else>studies</span>)</span>
+      </div>
+    </div>
+    <div class="studies" v-if="open">
+      <StudyDetail v-for="id in ids" :study="studiesLU[id]" />
     </div>
   </div>
 </template>
 
 
 <script>
+import StudyDetail from './StudyDetail.vue'
+
 export default {
   name: 'StudyList',
-  props: {
-    ids: Array,
-    studiesLU: Object
+  components: {
+    StudyDetail
   },
-  // beforeCreate: function() {
-  //   // console.log('beforeCreate', selectedCell)
-  // },
+  props: {
+    title: String,
+    ids: Array,
+    studiesLU: Array
+  },
+  data: function() {
+    return {
+      open: false
+    }
+  },
+  methods: {
+    handleClick: function() {
+      console.log('click')
+      this.open = !this.open
+    }
+  }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.study {
-  margin-bottom: 40px;
+.study-list {
+  padding: 0 10px;
+}
+.heading {
+  margin-bottom: 10px;
+  font-weight: bold;
+  cursor: pointer;
 }
 </style>

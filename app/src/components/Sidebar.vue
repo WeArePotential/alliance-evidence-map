@@ -1,29 +1,25 @@
 <template>
   <div id="sidebar" :style="{width: width + 'px'}">
     <div v-if="selectedCell.intervention !== null">
-      <h5 class="f5">Intervention</h5 class="f5">
-      <div>{{selectedCell.intervention}}</div>
-      <h5 class="f5">Outcome</h5 class="f5">
-      <div>{{selectedCell.outcome}}</div>
+      <div class="section">
+        <div class="heading">INTERVENTION</div>
+        <div class="content">{{selectedCell.intervention}}</div>
+      </div>
+      <div class="section">
+        <div class="heading">OUTCOME</div>
+        <div class="content">{{selectedCell.outcome}}</div>
+      </div>
 
-      <div class="study-groups">
-        <h2>Strong evidence (for)</h2>
-        <StudyList :ids="studyGroups.for.high" :studiesLU="studiesLU" />
-
-        <h2>Moderate evidence (for)</h2>
-        <StudyList :ids="studyGroups.for.moderate" :studiesLU="studiesLU" />
-
-        <h2>Low evidence (for)</h2>
-        <StudyList :ids="studyGroups.for.low" :studiesLU="studiesLU" />
-
-        <h2>Strong evidence (against)</h2>
-        <StudyList :ids="studyGroups.against.high" :studiesLU="studiesLU" />
-
-        <h2>Moderate evidence (against)</h2>
-        <StudyList :ids="studyGroups.against.moderate" :studiesLU="studiesLU" />
-
-        <h2>Low evidence (against)</h2>
-        <StudyList :ids="studyGroups.against.low" :studiesLU="studiesLU" />
+      <div class="section">
+        <div class="heading">STUDIES</div>
+        <div class="study-groups">
+          <StudyList title="Strong evidence (for)" :ids="studyGroups.for.high" :studiesLU="studiesLU" />
+          <StudyList title="Moderate evidence (for)" :ids="studyGroups.for.moderate" :studiesLU="studiesLU" />
+          <StudyList title="Low evidence (for)" :ids="studyGroups.for.low" :studiesLU="studiesLU" />
+          <StudyList title="Strong evidence (against)" :ids="studyGroups.against.high" :studiesLU="studiesLU" />
+          <StudyList title="Moderate evidence (against)" :ids="studyGroups.against.moderate" :studiesLU="studiesLU" />
+          <StudyList title="Low evidence (against)" :ids="studyGroups.against.low" :studiesLU="studiesLU" />
+        </div>
       </div>
     </div>
   </div>
@@ -42,7 +38,7 @@ export default {
     width: Number,
     outcomeInterventionLU: Object,
     selectedCell: Object,
-    studiesLU: Object
+    studiesLU: Array
   },
   // beforeCreate: function() {
   //   // console.log('beforeCreate', selectedCell)
@@ -70,7 +66,25 @@ export default {
   z-index: 200;
   overflow-y: scroll;
   font-size: 14px;
-  padding: 0 10px;
+  /* padding: 0 10px; */
   box-sizing: border-box;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.heading {
+  text-align: center;
+  background-color: #555;
+  color: white;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.content {
+  padding: 0 10px;
 }
 </style>
