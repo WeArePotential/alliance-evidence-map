@@ -1,13 +1,14 @@
 <template>
   <div id="sidebar" :style="{width: width + 'px'}">
+    <div class="heading">FILTER</div>
     <FilterMenu :studies="studies" :action="action" />
     <div class="info" v-if="selectedCell.intervention !== null">
       <div class="section">
-        <div class="heading">INTERVENTION</div>
+        <div class="heading">SELECTED INTERVENTION</div>
         <div class="content">{{selectedCell.intervention}}</div>
       </div>
       <div class="section">
-        <div class="heading">OUTCOME</div>
+        <div class="heading">SELECTED OUTCOME</div>
         <div class="content">{{selectedCell.outcome}}</div>
       </div>
 

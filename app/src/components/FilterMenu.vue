@@ -1,11 +1,13 @@
 <template>
   <div id="filter-menu">
     <div class="filter">
+      <div class="label">Country</div>
       <select v-on:change="setFilter('country', $event)">
         <option v-for="country in countries">{{country}}</option>
       </select>
     </div>
     <div class="filter">
+      <div class="label">Population</div>
       <select v-on:change="setFilter('population', $event)">
         <option v-for="population in populations">{{population}}</option>
       </select>
@@ -55,5 +57,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.filter {
+  padding: 0 0 20px 10px;
+}
+.label {
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+.filter select {
+  padding: 5px;
+}
 </style>
