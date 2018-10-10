@@ -83,7 +83,7 @@ export default {
     return {
       topHeaderHeight: 200,
       leftHeaderWidth: 240,
-      categoryWidth: 30,
+      categoryWidth: 28,
       innerOffsetX: 0,
       innerOffsetY: 0,
       cellSize: 100

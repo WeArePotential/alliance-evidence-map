@@ -123,6 +123,25 @@ function getOutcomeInterventionArray(lu, outcomes, interventions, oCats, iCats) 
   return a
 }
 
+// function getCategoryGroups(items, cats) {
+//     let a = []
+//
+//     cats.forEach(cat => {
+//       let group = {
+//         name: cat,
+//         items: []
+//       }
+//
+//       let itemsInCategory = items.filter(d => d.Category === cat)
+//
+//       itemsInCategory.forEach(item => {
+//         group.items.push()
+//       })
+//     })
+//
+//
+// }
+
 function getInterventionCategoryGroups(interventions, iCats) {
   let a = []
 
