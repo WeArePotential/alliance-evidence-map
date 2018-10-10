@@ -1,9 +1,9 @@
 <template>
   <div v-if="ids.length > 0" class="study-list">
-    <div v-on:click="handleClick">
+    <div class="dim" v-on:click="handleClick">
       <div class="heading noselect">
         <span><span v-if="open">-</span><span v-else>+</span></span>
-        <span> {{title}} ({{ids.length}} <span v-if="ids.length === 1">study</span><span v-else>studies</span>)</span>
+        <span> {{title}} <span class="num-studies">({{ids.length}} <span v-if="ids.length === 1">study</span><span v-else>studies</span>)</span></span>
       </div>
     </div>
     <div class="studies" v-if="open">
@@ -42,11 +42,16 @@ export default {
 
 <style scoped>
 .study-list {
-  padding: 0 10px;
+  padding: 10px;
 }
 .heading {
   margin-bottom: 10px;
   font-weight: bold;
   cursor: pointer;
+}
+.num-studies {
+  font-size: 0.85em;
+  font-weight: normal;
+  color: #333;
 }
 </style>

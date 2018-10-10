@@ -6,7 +6,7 @@
     <div class="field"><span>Publication date:</span> {{study.date}}</div>
     <div class="summary serif">{{expanded ? study.summary : study.summary.slice(0, 200) + '...'}}</div>
 
-    <div v-if="expanded"><span>Link:</span><a class="dim" :href="study.url"> {{study.url}}</a></div>
+    <div v-if="expanded" class="field"><span>Link:</span><a class="dim" :href="study.url" target="_blank"> {{study.url}}</a></div>
     <div v-if="expanded" class="field"><span>Country:</span> {{study.country}}</div>
     <div v-if="expanded" class="field"><span>Population:</span> {{study.population}}</div>
 
