@@ -43,8 +43,10 @@ function getStudies(ivs, ocs, data) {
       url: d.Link,
       country: d.Country,
 
-      evidenceAgainst: d['Evidence against the intervention?'][0].toUpperCase() === 'Y',
-      strengthOfEvidence: d['Strength of Evidence'].toLowerCase()
+      // evidenceAgainst: d['Evidence against the intervention?'][0].toUpperCase() === 'Y',
+      forAgainstEvidence: d['Evidence against the intervention?'][0].toUpperCase() === 'Y' ? 'against' : 'for',
+      strengthOfEvidence: d['Strength of Evidence'].toLowerCase(),
+      studyType: d['Primary study / Review']
     }
 
     let population = d.Population.split(';')
@@ -99,7 +101,7 @@ function getOutcomeInterventionLU(ivs, ocs, studies) {
   // Fill it in!
   studies.forEach(d => {
     let id = d.id
-    let evidenceAgainst = d.evidenceAgainst
+    let evidenceAgainst = d.forAgainstEvidence === 'against'
     let strength = d.strengthOfEvidence
 
     d.outcomes.forEach(outcome => {

@@ -79,7 +79,7 @@ export default {
 
 .heading {
   text-align: center;
-  background-color: #555;
+  background-color: #a71930;
   color: white;
   padding: 5px;
   font-weight: bold;

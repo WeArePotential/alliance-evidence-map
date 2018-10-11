@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="interventions">
-        <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * 100) + 'px', top: categoryWidth + 'px', height: (topHeaderHeight - categoryWidth) + 'px'}">
+        <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * cellWidth) + 'px', top: categoryWidth + 'px', width: cellWidth + 'px', height: (topHeaderHeight - categoryWidth) + 'px'}">
           <div class="b">{{intervention}}</div>
         </div>
       </div>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="outcomes">
-        <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * 100) + 'px', left: categoryWidth + 'px', width: (leftHeaderWidth - categoryWidth) + 'px'}">
+        <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * cellHeight) + 'px', left: categoryWidth + 'px', width: (leftHeaderWidth - categoryWidth) + 'px', height: cellHeight + 'px'}">
           <div class="b">{{outcome}}</div>
         </div>
       </div>
@@ -36,21 +36,21 @@
 
      <div class="grid-wrapper">
       <div class="grid-inner" :style="{left: (leftHeaderWidth) + 'px', top: (topHeaderHeight) + 'px'}">
-        <svg v-bind:width="numCols * cellSize" v-bind:height="numRows * cellSize"  v-if="outcomeGroups.length > 0">
+        <svg v-bind:width="numCols * cellWidth" v-bind:height="numRows * cellHeight"  v-if="outcomeGroups.length > 0">
           <g class="cells">
-            <g v-for="(outcome, i) in outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
-              <g v-for="(intervention, j) in interventions" v-bind:transform="`translate(${j * cellSize}, 0)`" v-on:click="action('selectCell', {outcome: outcome, intervention: intervention})">
-                <Barchart :data="outcomeInterventionLU[outcome][intervention]" :size="cellSize" :maxStudies="maxStudies" />
+            <g v-for="(outcome, i) in outcomes" v-bind:transform="`translate(0, ${i * cellHeight})`">
+              <g v-for="(intervention, j) in interventions" v-bind:transform="`translate(${j * cellWidth}, 0)`" v-on:click="action('selectCell', {outcome: outcome, intervention: intervention})">
+                <Barchart :data="outcomeInterventionLU[outcome][intervention]" :width="cellWidth" :height="cellHeight" :maxStudies="maxStudies" />
               </g>
             </g>
           </g>
 
           <g class="grid-lines">
-            <g v-for="(outcome, i) in outcomes" v-bind:transform="`translate(0, ${i * cellSize})`">
-              <line class="grid-line" :x2="numCols * cellSize" />
+            <g v-for="(outcome, i) in outcomes" v-bind:transform="`translate(0, ${i * cellHeight})`">
+              <line class="grid-line" :x2="numCols * cellWidth" />
             </g>
-            <g v-for="(intervention, i) in interventions" v-bind:transform="`translate(${i * cellSize})`">
-              <line class="grid-line" :y2="numRows * cellSize" />
+            <g v-for="(intervention, i) in interventions" v-bind:transform="`translate(${i * cellWidth})`">
+              <line class="grid-line" :y2="numRows * cellHeight" />
             </g>
           </g>
         </svg>
@@ -87,7 +87,8 @@ export default {
       categoryWidth: 28,
       innerOffsetX: 0,
       innerOffsetY: 0,
-      cellSize: 100
+      cellWidth: 100,
+      cellHeight: 60
     }
   },
   computed: {
@@ -101,7 +102,7 @@ export default {
       let y = this.topHeaderHeight
       let headers = []
       this.outcomeGroups.forEach(g => {
-        let h = g.size * this.cellSize
+        let h = g.size * this.cellHeight
         headers.push({
           name: g.name.toUpperCase(),
           size: h,
@@ -109,14 +110,13 @@ export default {
         })
         y += h
       })
-      console.log('headers', headers)
       return headers
     },
     interventionHeaders: function() {
       let x = this.leftHeaderWidth
       let headers = []
       this.interventionGroups.forEach(g => {
-        let w = g.size * this.cellSize
+        let w = g.size * this.cellWidth
         headers.push({
           name: g.name.toUpperCase(),
           size: w,
@@ -167,8 +167,8 @@ export default {
 
 .fixed-row .fixed-row-cell {
   position: absolute;
-  height: 100px;
-  width: 100px;
+  /* height: 100px; */
+  /* width: 100px; */
   text-align: center;
   border-right: 1px solid #eee;
   border-bottom: 1px solid #aaa;
@@ -205,7 +205,7 @@ export default {
 }
 
 .header-container svg {
-  background-color: #aaa;
+  background-color: #a71930;
   /* border-bottom: 12px solid white; */
 }
 

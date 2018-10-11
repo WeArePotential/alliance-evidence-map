@@ -35,9 +35,12 @@ export default {
       selectedCell: {intervention: null, outcome: null},
 
       filters: {
-        filterIds: ['country', 'population'],
+        filterIds: ['country', 'population', 'studyType', 'strengthOfEvidence', 'forAgainstEvidence'],
         country: 'All',
-        population: 'All'
+        population: 'All',
+        studyType: 'All',
+        strengthOfEvidence: 'All',
+        forAgainstEvidence: 'All'
       }
     }
   },
@@ -69,7 +72,7 @@ export default {
   },
   methods: {
     action: function(type, args) {
-      console.log(type, args)
+      // console.log(type, args)
       switch(type) {
       case 'selectCell':
         this.selectedCell = args

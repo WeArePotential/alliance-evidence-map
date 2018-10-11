@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     handleClick: function() {
-      console.log('click')
       this.open = !this.open
     }
   }

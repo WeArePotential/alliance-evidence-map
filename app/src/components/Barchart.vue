@@ -1,9 +1,9 @@
 <template>
   <g v-if="nonZero" class="cell">
-    <rect class="background" :width="size" :height="size" />
-    <g :transform="`translate(0, ${0.5 * size})`">
+    <rect class="background" :width="width" :height="height" />
+    <g :transform="`translate(0, ${0.5 * height})`">
       <rect v-for="bar in positiveBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#137752', opacity: bar.opacity}"/>
-      <line x1="10" :x2="size - 10" />
+      <line x1="10" :x2="width - 10" />
       <rect v-for="bar in negativeBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#e7040f', opacity: bar.opacity}"/>
     </g>
   </g>
@@ -17,7 +17,8 @@ export default {
   name: 'Barchart',
   props: {
     data: Object,
-    size: Number,
+    width: Number,
+    height: Number,
     maxStudies: Number
   },
   computed: {
@@ -25,8 +26,8 @@ export default {
       return this.data.for.low.length + this.data.for.moderate.length + this.data.for.high.length + this.data.against.low.length + this.data.against.moderate.length + this.data.against.high.length > 0
     },
     positiveBars: function() {
-      let yScale = scaleLinear().domain([0, this.maxStudies]).range([0, 0.4 * this.size])
-      let xScale = scaleBand().domain([0, 1, 2]).range([0, this.size]).paddingInner(0.05).paddingOuter(0.5)
+      let yScale = scaleLinear().domain([0, this.maxStudies]).range([0, 0.4 * this.height])
+      let xScale = scaleBand().domain([0, 1, 2]).range([0, this.width]).paddingInner(0.05).paddingOuter(0.5)
 
       return [
         {x: xScale(0), width: xScale.bandwidth(), y: -yScale(this.data.for.low.length), height: yScale(this.data.for.low.length), opacity: 0.3},
@@ -35,8 +36,8 @@ export default {
       ]
     },
     negativeBars: function() {
-      let yScale = scaleLinear().domain([0, this.maxStudies]).range([0, 0.4 * this.size])
-      let xScale = scaleBand().domain([0, 1, 2]).range([0, this.size]).paddingInner(0.05).paddingOuter(0.5)
+      let yScale = scaleLinear().domain([0, this.maxStudies]).range([0, 0.4 * this.height])
+      let xScale = scaleBand().domain([0, 1, 2]).range([0, this.width]).paddingInner(0.05).paddingOuter(0.5)
 
       return [
         {x: xScale(0), width: xScale.bandwidth(), y: 0, height: yScale(this.data.against.low.length), opacity: 0.3},
