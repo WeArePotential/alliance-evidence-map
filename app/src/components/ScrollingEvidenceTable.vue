@@ -1,13 +1,40 @@
 <template>
 
   <div class="scrollable-table" :style="{marginLeft: sidebarWidth + 'px'}">
-    <div class="fixed-corner" :style="{left: sidebarWidth + 'px', width: leftHeaderWidth + 'px', height: topHeaderHeight + 'px'}"></div>
+    <div class="fixed-corner" :style="{left: sidebarWidth + 'px', width: leftHeaderWidth + 'px', height: topHeaderHeight + 'px'}">
+      <svg :width="leftHeaderWidth" :height="topHeaderHeight">
+        <g transform="translate(20, 160)">
+          <g transform="translate(0, 0)">
+            <rect x="12.658227848101262" width="24.050632911392405" y="-10" height="10" style="fill: rgb(19, 119, 82); opacity: 0.3;"></rect>
+            <rect x="37.974683544303794" width="24.050632911392405" y="-27.428571428571427" height="27.428571428571427" style="fill: rgb(19, 119, 82); opacity: 0.6;"></rect>
+            <rect x="63.291139240506325" width="24.050632911392405" y="-4.571428571428571" height="4.571428571428571" style="fill: rgb(19, 119, 82); opacity: 1;"></rect>
+            <line x1="10" x2="90"></line>
+            <rect x="12.658227848101262" width="24.050632911392405" y="0" height="14.571428571428571" style="fill: rgb(231, 4, 15); opacity: 0.3;"></rect>
+            <rect x="37.974683544303794" width="24.050632911392405" y="0" height="19.142857142857142" style="fill: rgb(231, 4, 15); opacity: 0.6;"></rect>
+            <rect x="63.291139240506325" width="24.050632911392405" y="0" height="8" style="fill: rgb(231, 4, 15); opacity: 1;"></rect></g>
+
+            <text x="95" y="-10">Evidence for</text>
+            <text x="95" y="22">Evidence against</text>
+
+            <g transform="translate(28,-40)">
+              <text transform="rotate(-90)">Low evidence</text>
+            </g>
+            <g transform="translate(54,-40)">
+              <text transform="rotate(-90)">Moderate evidence</text>
+            </g>
+            <g transform="translate(80,-40)">
+              <text transform="rotate(-90)">Strong evidence</text>
+            </g>
+        </g>
+      </svg>
+    </div>
 
     <div class="fixed-row" :style="{left: sidebarWidth + 'px'}">
       <div class="headers">
         <div class="header-container" v-for="header in interventionHeaders" :style="{left: (-innerOffsetX + header.x) + 'px'}">
           <svg :height="categoryWidth" :width="header.size - 3">
-            <text :transform="`translate(${0.5 * header.size}, 18)`">{{header.name}}</text>
+            <text :transform="`translate(${0.5 * header.size}, 18)`">{{header.label}}</text>
+            <title>{{header.name}}</title>
           </svg>
         </div>
       </div>
@@ -23,6 +50,7 @@
         <div class="header-container" v-for="header in outcomeHeaders" :style="{top: (-innerOffsetY + header.y) + 'px'}">
           <svg :width="categoryWidth" :height="header.size - 3">
             <text :transform="`rotate(-90)translate(${-0.5 * header.size}, 18)`">{{header.name}}</text>
+            <title>{{header.name}}</title>
           </svg>
         </div>
       </div>
@@ -88,7 +116,7 @@ export default {
       innerOffsetX: 0,
       innerOffsetY: 0,
       cellWidth: 100,
-      cellHeight: 60
+      cellHeight: 80
     }
   },
   computed: {
@@ -117,8 +145,15 @@ export default {
       let headers = []
       this.interventionGroups.forEach(g => {
         let w = g.size * this.cellWidth
+        let name = g.name.toUpperCase()
+        let label = name
+        let maxChars = w / 11
+        if(name.length > maxChars) {
+          label = name.slice(0, maxChars) + '...'
+        }
         headers.push({
-          name: g.name.toUpperCase(),
+          name: name,
+          label: label,
           size: w,
           x: x
         })
@@ -155,6 +190,17 @@ export default {
   border-right: 1px solid #aaa;
   border-bottom: 1px solid #aaa;
   /* border: 1px solid #ddd; */
+}
+
+.fixed-corner line {
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+
+.fixed-corner text {
+  font-weight: bold;
+  font-size: 12px;
+  fill: #555;
 }
 
 .fixed-row {

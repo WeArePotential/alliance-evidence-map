@@ -1,5 +1,8 @@
 <template>
   <div id="sidebar" :style="{width: width + 'px'}">
+    <div class="section">
+      <h3 class="">International HIV and AIDS Alliance Evidence map of community action on HIV, health and rights</h3>
+    </div>
     <div class="heading">FILTER</div>
     <FilterMenu :studies="studies" :action="action" />
     <div class="info" v-if="selectedCell.intervention !== null">
@@ -69,10 +72,13 @@ export default {
   z-index: 200;
   overflow-y: scroll;
   font-size: 14px;
-  /* padding: 0 10px; */
+  border-right: 1px solid #aaa;
   box-sizing: border-box;
 }
 
+h3 {
+  padding: 0 10px;
+}
 .section {
   margin-bottom: 20px;
 }

@@ -67,6 +67,7 @@ export default {
       let population = []
       this.studies.forEach(d => {
         d.population.forEach(p => {
+          if(p === '') return
           population.push(p)
         })
       })
@@ -105,6 +106,6 @@ export default {
   margin-bottom: 2px;
 }
 .filter select {
-  padding: 5px;
+  padding: 2px;
 }
 </style>
