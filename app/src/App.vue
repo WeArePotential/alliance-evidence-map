@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="sans-serif">
     <Sidebar :width="sidebarWidth" :outcomeInterventionLU="filteredOutcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU" :studies="studies" :action="action"></Sidebar>
-    <ScrollingEvidenceTable :interventions="interventions" :interventionGroups="interventionGroups" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="filteredOutcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" />
+    <ScrollingEvidenceTable :interventions="interventions" :interventionGroups="interventionGroups" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="filteredOutcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" :selectedCell="selectedCell" />
   </div>
 </template>
 

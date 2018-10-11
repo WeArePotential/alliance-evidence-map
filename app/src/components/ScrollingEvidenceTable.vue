@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="interventions">
-        <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * cellWidth) + 'px', top: categoryWidth + 'px', width: cellWidth + 'px', height: (topHeaderHeight - categoryWidth) + 'px'}">
+        <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * cellWidth) + 'px', top: categoryWidth + 'px', width: cellWidth + 'px', height: (topHeaderHeight - categoryWidth) + 'px', backgroundColor: selectedCell.intervention === intervention ? '#ddd' : null}">
           <div class="b">{{intervention}}</div>
         </div>
       </div>
@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="outcomes">
-        <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * cellHeight) + 'px', left: categoryWidth + 'px', width: (leftHeaderWidth - categoryWidth) + 'px', height: cellHeight + 'px'}">
+        <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * cellHeight) + 'px', left: categoryWidth + 'px', width: (leftHeaderWidth - categoryWidth) + 'px', height: cellHeight + 'px', backgroundColor: selectedCell.outcome === outcome ? '#ddd' : null}">
           <div class="b">{{outcome}}</div>
         </div>
       </div>
@@ -64,11 +64,11 @@
 
      <div class="grid-wrapper">
       <div class="grid-inner" :style="{left: (leftHeaderWidth) + 'px', top: (topHeaderHeight) + 'px'}">
-        <svg v-bind:width="numCols * cellWidth" v-bind:height="numRows * cellHeight"  v-if="outcomeGroups.length > 0">
+        <svg v-bind:width="numCols * cellWidth" v-bind:height="numRows * cellHeight"  v-if="outcomeGroups.length > 0" @click="action('selectCell', {outcome: null, intervention: null})">
           <g class="cells">
             <g v-for="(outcome, i) in outcomes" v-bind:transform="`translate(0, ${i * cellHeight})`">
-              <g v-for="(intervention, j) in interventions" v-bind:transform="`translate(${j * cellWidth}, 0)`" v-on:click="action('selectCell', {outcome: outcome, intervention: intervention})">
-                <Barchart :data="outcomeInterventionLU[outcome][intervention]" :width="cellWidth" :height="cellHeight" :maxStudies="maxStudies" />
+              <g v-for="(intervention, j) in interventions" v-bind:transform="`translate(${j * cellWidth}, 0)`" @click.stop="action('selectCell', {outcome: outcome, intervention: intervention})">
+                <Barchart :data="outcomeInterventionLU[outcome][intervention]" :width="cellWidth" :height="cellHeight" :maxStudies="maxStudies" :selected="selectedCell.outcome === outcome && selectedCell.intervention === intervention"/>
               </g>
             </g>
           </g>
@@ -106,7 +106,8 @@ export default {
     outcomeInterventionLU: Object,
     action: Function,
     sidebarWidth: Number,
-    maxStudies: Number
+    maxStudies: Number,
+    selectedCell: Object
   },
   data: function() {
     return {
@@ -198,7 +199,6 @@ export default {
 }
 
 .fixed-corner text {
-  font-weight: bold;
   font-size: 12px;
   fill: #555;
 }

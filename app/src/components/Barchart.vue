@@ -1,6 +1,6 @@
 <template>
   <g v-if="nonZero" class="cell">
-    <rect class="background" :width="width" :height="height" />
+    <rect class="background" :width="width" :height="height" :style="{fill: selected ? '#ddd' : null}"/>
     <g :transform="`translate(0, ${0.5 * height})`">
       <rect v-for="bar in positiveBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#137752', opacity: bar.opacity}"/>
       <line x1="10" :x2="width - 10" />
@@ -19,7 +19,8 @@ export default {
     data: Object,
     width: Number,
     height: Number,
-    maxStudies: Number
+    maxStudies: Number,
+    selected: Boolean
   },
   computed: {
     nonZero: function() {
