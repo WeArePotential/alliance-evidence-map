@@ -2,6 +2,7 @@
   <div id="sidebar" :style="{width: width + 'px'}">
     <div class="section">
       <h3 class="">International HIV and AIDS Alliance Evidence map of community action on HIV, health and rights</h3>
+      <p>Lorem ipsum dolor sit amet, definiebas intellegam ius cu, pri ei epicurei rationibus, ex eum dicta sonet invidunt. Ei mea nihil discere appareat, ut usu reque facilis assueverit, et vix oblique periculis omittantur. Ne eros verear instructior sed, vero scribentur nec te. No convenire euripidis vulputate sit. Id scaevola expetenda cotidieque his.</p>
     </div>
     <div class="heading">FILTER</div>
     <FilterMenu :studies="studies" :action="action" />
@@ -81,6 +82,9 @@ h3 {
 }
 .section {
   margin-bottom: 20px;
+}
+.section p {
+  padding: 0 10px;
 }
 
 .heading {

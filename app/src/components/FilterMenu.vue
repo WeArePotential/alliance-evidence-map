@@ -2,7 +2,7 @@
   <div id="filter-menu">
     <div class="filter">
       <div class="label">Country</div>
-      <select v-on:change="setFilter('country', $event)">
+      <select v-on:change="setFilter('countries', $event)">
         <option v-for="country in countries">{{country}}</option>
       </select>
     </div>
@@ -18,6 +18,13 @@
       <div class="label">Type of study</div>
       <select v-on:change="setFilter('studyType', $event)">
         <option v-for="type in studyTypes">{{type}}</option>
+      </select>
+    </div>
+
+    <div class="filter">
+      <div class="label">Internal / External</div>
+      <select v-on:change="setFilter('internalExternal', $event)">
+        <option v-for="type in internalExternalTypes">{{type}}</option>
       </select>
     </div>
 
@@ -58,7 +65,14 @@ export default {
   },
   computed: {
     countries: function() {
-      let countries = uniq(this.studies.map(d => d.country))
+      let countries = []
+      this.studies.forEach(d => {
+        d.countries.forEach(c => {
+          if(c === '') return
+          countries.push(c)
+        })
+      })
+      countries = uniq(countries)
       countries.sort()
       countries.unshift('All')
       return countries
@@ -72,6 +86,7 @@ export default {
         })
       })
       population = uniq(population)
+      population.sort()
       population.unshift('All')
       return population
     },
@@ -80,15 +95,14 @@ export default {
       types.unshift('All')
       return types
     },
+    internalExternalTypes: function() {
+      return ['All', 'Internal', 'External']
+    },
     evidenceStrengths: function() {
-      // let strengths = uniq(this.studies.map(d => d.strengthOfEvidence))
-      // strengths.unshift('All')
       let strengths = ['All', 'low', 'moderate', 'high']
       return strengths
     },
     forAgainstEvidenceTypes: function() {
-      // let types = uniq(this.studies.map(d => d.forAgainstEvidence))
-      // types.unshift('All')
       let types = ['All', 'for', 'against']
       return types
     }

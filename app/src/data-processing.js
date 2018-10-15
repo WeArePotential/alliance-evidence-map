@@ -41,17 +41,21 @@ function getStudies(ivs, ocs, data) {
       orgsInvolved: d['Orgs involved'],
       date: d.Date,
       url: d.Link,
-      country: d.Country,
 
       // evidenceAgainst: d['Evidence against the intervention?'][0].toUpperCase() === 'Y',
       forAgainstEvidence: d['Evidence against the intervention?'][0].toUpperCase() === 'Y' ? 'against' : 'for',
       strengthOfEvidence: d['Strength of Evidence'].toLowerCase(),
+      internalExternal: d['Internal / External'].toUpperCase().slice(0,2) === 'IN' ? 'Internal' : d['Internal / External'].toUpperCase().slice(0,2) === 'EX' ? 'External' : 'Unknown',
       studyType: d['Primary study / Review']
     }
 
     let population = d.Population.split(';')
     population = population.map(d => d.trim())
     study.population = population
+
+    let countries = d.Country.split(';')
+    countries = countries.map(d => d.trim())
+    study.countries = countries
 
     let interventions = d.Interventions.split(';')
     interventions = interventions.map(d => ivlu[+d])
@@ -190,6 +194,7 @@ function getMaxStudies(ivs, ocs, lu) {
 }
 
 function getFilteredStudies(studies, filters) {
+  // console.log('filter', filters)
   let filtered = filter(studies, study => {
     let include = true
 
@@ -197,7 +202,7 @@ function getFilteredStudies(studies, filters) {
       if(filters[id] === 'All')
         return
 
-      if(id === 'population') {
+      if(id === 'population' || id=== 'countries') {
         if(!includes(study[id], filters[id]))
           include = false
       } else {

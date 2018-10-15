@@ -166,8 +166,8 @@ export default {
   mounted: function() {
     let self = this
     window.addEventListener('scroll', function() {
-      self.innerOffsetX = window.scrollX
-      self.innerOffsetY = window.scrollY
+      self.innerOffsetX = window.pageXOffset
+      self.innerOffsetY = window.pageYOffset
     })
   }
 }

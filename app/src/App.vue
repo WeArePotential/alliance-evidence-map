@@ -35,10 +35,11 @@ export default {
       selectedCell: {intervention: null, outcome: null},
 
       filters: {
-        filterIds: ['country', 'population', 'studyType', 'strengthOfEvidence', 'forAgainstEvidence'],
-        country: 'All',
+        filterIds: ['countries', 'population', 'studyType', 'internalExternal', 'strengthOfEvidence', 'forAgainstEvidence'],
+        countries: 'All',
         population: 'All',
         studyType: 'All',
+        internalExternal: 'All',
         strengthOfEvidence: 'All',
         forAgainstEvidence: 'All'
       }
@@ -65,7 +66,6 @@ export default {
   },
   computed: {
     filteredOutcomeInterventionLU: function() {
-      // let filteredStudies = this.studies
       let filteredStudies = getFilteredStudies(this.studies, this.filters)
       return getOutcomeInterventionLU(this.interventions, this.outcomes, filteredStudies)
     }

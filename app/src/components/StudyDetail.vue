@@ -7,8 +7,8 @@
     <div class="summary serif">{{expanded ? study.summary : study.summary.slice(0, 200) + '...'}}</div>
 
     <div v-if="expanded" class="field"><span>Link:</span><a class="dim" :href="study.url" target="_blank"> {{study.url}}</a></div>
-    <div v-if="expanded" class="field"><span>Country:</span> {{study.country}}</div>
-    <div v-if="expanded" class="field"><span>Population:</span> {{study.population}}</div>
+    <div v-if="expanded" class="field"><span>Country:</span> {{study.countries.join(', ')}}</div>
+    <div v-if="expanded" class="field"><span>Population:</span> {{study.population.join(', ')}}</div>
 
     <div class="expand-button noselect dim" v-on:click="handleClick"><span v-if="expanded">Less</span><span v-else>More</span></div>
   </div>
