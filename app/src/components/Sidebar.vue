@@ -18,7 +18,7 @@
       </div>
 
       <div class="section">
-        <div class="heading">STUDIES</div>
+        <div v-bind:class="{heading: true, animated: emphasiseChange, infinite: true, bounce: true}">STUDIES ({{numFoundStudies}} found)</div>
         <div class="study-groups">
           <StudyList title="Strong evidence (for)" :ids="studyGroups.for.high" :studiesLU="studiesLU" />
           <StudyList title="Moderate evidence (for)" :ids="studyGroups.for.moderate" :studiesLU="studiesLU" />
@@ -50,6 +50,7 @@ export default {
     studiesLU: Array,
     studies: Array,
     filters: Object,
+    emphasiseChange: Boolean,
     action: Function
   },
   data: function() {
@@ -59,6 +60,10 @@ export default {
   computed: {
     studyGroups: function() {
       return this.outcomeInterventionLU[this.selectedCell.outcome][this.selectedCell.intervention]
+    },
+    numFoundStudies: function() {
+      let num = this.studyGroups.for.high.length + this.studyGroups.for.moderate.length + this.studyGroups.for.low.length + this.studyGroups.against.high.length + this.studyGroups.against.moderate.length + this.studyGroups.against.low.length
+      return num
     }
   }
 }

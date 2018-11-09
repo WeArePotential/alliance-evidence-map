@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="sans-serif">
-    <Sidebar :width="sidebarWidth" :outcomeInterventionLU="filteredOutcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU" :studies="studies" :filters="filters ":action="action"></Sidebar>
+    <Sidebar :width="sidebarWidth" :outcomeInterventionLU="filteredOutcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU" :studies="studies" :filters="filters " :emphasiseChange="emphasiseChange" :action="action"></Sidebar>
     <ScrollingEvidenceTable :interventions="interventions" :interventionGroups="interventionGroups" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="filteredOutcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" :selectedCell="selectedCell" />
   </div>
 </template>
@@ -33,6 +33,7 @@ export default {
 
       sidebarWidth: 400,
       selectedCell: {intervention: null, outcome: null},
+      emphasiseChange: false,
 
       filters: {
         filterIds: ['countries', 'population',/* 'studyType', 'internalExternal',*/ 'strengthOfEvidence', 'forAgainstEvidence'],
@@ -76,16 +77,31 @@ export default {
       switch(type) {
       case 'selectCell':
         this.selectedCell = args
+        this.setEmphasiseChange()
         break
-      case 'setFilter':
-        this.filters[args.filter] = args.value
-        break
+      // case 'setFilter':
+      //   this.setEmphasiseChange()
+      //   break
       case 'resetFilter':
         this.filters.filterIds.forEach(d => this.filters[d] = 'All')
         break
       default:
         console.log('Unknown action', type)
       }
+    },
+    setEmphasiseChange() {
+      this.emphasiseChange = true
+      window.setTimeout(() => {
+        this.emphasiseChange = false
+      }, 3000)
+    }
+  },
+  watch: {
+    filters: {
+      handler: function() {
+        this.setEmphasiseChange()
+      },
+      deep: true
     }
   }
 }

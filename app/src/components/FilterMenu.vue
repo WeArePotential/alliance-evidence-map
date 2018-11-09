@@ -142,5 +142,6 @@ export default {
   text-align: right;
   color: #777;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 </style>
