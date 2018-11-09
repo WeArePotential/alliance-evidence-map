@@ -8,11 +8,11 @@
     <div class="heading">FILTER</div>
     <FilterMenu :studies="studies" :action="action" :filters="filters" />
     <div class="info" v-if="selectedCell.intervention !== null">
-      <div class="section">
+      <div class="section selected-intervention">
         <div class="heading">SELECTED INTERVENTION</div>
         <div class="content">{{selectedCell.intervention}}</div>
       </div>
-      <div class="section">
+      <div class="section selected-outcome">
         <div class="heading">SELECTED OUTCOME</div>
         <div class="content">{{selectedCell.outcome}}</div>
       </div>
@@ -83,7 +83,15 @@ h3 {
   padding: 0 10px;
 }
 .section {
-  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+.section.selected-intervention {
+  background-color: #999;
+  font-weight: bold;
+}
+.section.selected-outcome {
+  background-color: #ddd;
+  font-weight: bold;
 }
 .section p {
   padding: 0 10px;

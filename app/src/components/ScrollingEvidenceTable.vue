@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="interventions">
-        <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * cellWidth) + 'px', top: categoryWidth + 'px', width: cellWidth + 'px', height: (topHeaderHeight - categoryWidth) + 'px', backgroundColor: selectedCell.intervention === intervention ? '#ddd' : null}">
+        <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * cellWidth) + 'px', top: categoryWidth + 'px', width: cellWidth + 'px', height: (topHeaderHeight - categoryWidth) + 'px', backgroundColor: selectedCell.intervention === intervention ? '#999' : null}">
           <div class="b">{{intervention}}</div>
         </div>
       </div>
