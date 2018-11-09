@@ -98,7 +98,8 @@ export default {
 
 .header {
   display: flex;
-  padding: 0 10px;
+  align-items: center;
+  padding: 10px;
 }
 .header img {
   width: 150px;
@@ -106,11 +107,11 @@ export default {
 
 h3 {
   padding: 0 10px;
+  margin: 0;
   font-size: 16px;
   line-height: 20px;
   color: #333;
   text-align: center;
-  margin: 10px 0 0 0;
 }
 .info-text-button {
   font-size: 12px;

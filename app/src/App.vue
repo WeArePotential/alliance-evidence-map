@@ -48,8 +48,8 @@ export default {
   },
   mounted: function() {
     d3_csv('data/interventions.csv', (err, interventionsCsv) => {
-      d3_csv('data/outcomes.csv', (err, outcomesCsv) => {
-        d3_csv('data/studies.csv', (err, studiesCsv) => {
+      d3_csv('data/outcomes.csv?1', (err, outcomesCsv) => {
+        d3_csv('data/evidence-map.csv?1', (err, studiesCsv) => {
           this.outcomes = getOutcomes(outcomesCsv)
           this.outcomeGroups = getOutcomeGroups(outcomesCsv)
 
