@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="sans-serif">
-    <Sidebar :width="sidebarWidth" :outcomeInterventionLU="filteredOutcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU" :studies="studies" :action="action"></Sidebar>
+    <Sidebar :width="sidebarWidth" :outcomeInterventionLU="filteredOutcomeInterventionLU" :selectedCell="selectedCell" :studiesLU="studiesLU" :studies="studies" :filters="filters ":action="action"></Sidebar>
     <ScrollingEvidenceTable :interventions="interventions" :interventionGroups="interventionGroups" :outcomes="outcomes" :outcomeGroups="outcomeGroups" :outcomeInterventionLU="filteredOutcomeInterventionLU" :action="action" :sidebarWidth="sidebarWidth" :maxStudies="maxStudies" :selectedCell="selectedCell" />
   </div>
 </template>
@@ -79,6 +79,9 @@ export default {
         break
       case 'setFilter':
         this.filters[args.filter] = args.value
+        break
+      case 'resetFilter':
+        this.filters.filterIds.forEach(d => this.filters[d] = 'All')
         break
       default:
         console.log('Unknown action', type)

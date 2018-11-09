@@ -6,7 +6,7 @@
       <p>Lorem ipsum dolor sit amet, definiebas intellegam ius cu, pri ei epicurei rationibus, ex eum dicta sonet invidunt. Ei mea nihil discere appareat, ut usu reque facilis assueverit, et vix oblique periculis omittantur. Ne eros verear instructior sed, vero scribentur nec te. No convenire euripidis vulputate sit. Id scaevola expetenda cotidieque his.</p>
     </div>
     <div class="heading">FILTER</div>
-    <FilterMenu :studies="studies" :action="action" />
+    <FilterMenu :studies="studies" :action="action" :filters="filters" />
     <div class="info" v-if="selectedCell.intervention !== null">
       <div class="section">
         <div class="heading">SELECTED INTERVENTION</div>
@@ -49,6 +49,7 @@ export default {
     selectedCell: Object,
     studiesLU: Array,
     studies: Array,
+    filters: Object,
     action: Function
   },
   data: function() {

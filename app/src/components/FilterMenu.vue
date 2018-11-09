@@ -2,18 +2,20 @@
   <div id="filter-menu">
     <div class="filter">
       <div class="label">Country</div>
-      <select v-on:change="setFilter('countries', $event)">
+      <select v-model="filters.countries">
         <option v-for="country in countries">{{country}}</option>
       </select>
     </div>
 
     <div class="filter">
       <div class="label">Population</div>
-      <select v-on:change="setFilter('population', $event)">
+      <select v-model="filters.population">
         <option v-for="population in populations">{{population}}</option>
       </select>
     </div>
 
+<!-- v-on:change="setFilter('countries', $event)" -->
+<!-- v-on:change="setFilter('population', $event)" -->
 <!--
     <div class="filter">
       <div class="label">Type of study</div>
@@ -31,17 +33,19 @@
 -->
     <div class="filter">
       <div class="label">Strength of evidence</div>
-      <select v-on:change="setFilter('strengthOfEvidence', $event)">
+      <select v-model="filters.strengthOfEvidence">
         <option v-for="strength in evidenceStrengths" :value="strength">{{strength | capitalize }}</option>
       </select>
     </div>
 
     <div class="filter">
       <div class="label">For / against evidence</div>
-      <select v-on:change="setFilter('forAgainstEvidence', $event)">
+      <select v-model="filters.forAgainstEvidence">
         <option v-for="type in forAgainstEvidenceTypes" :value="type">{{type | capitalize}}</option>
       </select>
     </div>
+
+    <div class="reset-button" v-on:click="resetFilter()">Reset filter</div>
   </div>
 </template>
 
@@ -53,6 +57,7 @@ export default {
   name: 'FilterMenu',
   props: {
     studies: Array,
+    filters: Object,
     action: Function
   },
   data: function() {
@@ -60,8 +65,11 @@ export default {
     }
   },
   methods: {
-    setFilter: function(id, e) {
-      this.action('setFilter', {filter: id, value: e.target.value})
+    // setFilter: function(id, e) {
+    //   this.action('setFilter', {filter: id, value: e.target.value})
+    // },
+    resetFilter: function() {
+      this.action('resetFilter')
     }
   },
   computed: {
@@ -113,14 +121,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#filter-menu {
+  padding: 0 10px;
+}
 .filter {
-  padding: 0 0 20px 10px;
+  padding: 0 20px 20px 0;
+  display: inline-block;
 }
 .label {
   font-size: 12px;
   margin-bottom: 2px;
 }
 .filter select {
+  width: 160px;
   padding: 2px;
+}
+.reset-button {
+  font-size: 12px;
+  text-decoration: underline;
+  text-align: right;
+  color: #777;
+  cursor: pointer;
 }
 </style>
