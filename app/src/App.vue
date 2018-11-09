@@ -35,11 +35,11 @@ export default {
       selectedCell: {intervention: null, outcome: null},
 
       filters: {
-        filterIds: ['countries', 'population', 'studyType', 'internalExternal', 'strengthOfEvidence', 'forAgainstEvidence'],
+        filterIds: ['countries', 'population',/* 'studyType', 'internalExternal',*/ 'strengthOfEvidence', 'forAgainstEvidence'],
         countries: 'All',
         population: 'All',
-        studyType: 'All',
-        internalExternal: 'All',
+        // studyType: 'All',
+        // internalExternal: 'All',
         strengthOfEvidence: 'All',
         forAgainstEvidence: 'All'
       }

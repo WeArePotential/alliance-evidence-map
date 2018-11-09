@@ -14,6 +14,7 @@
       </select>
     </div>
 
+<!--
     <div class="filter">
       <div class="label">Type of study</div>
       <select v-on:change="setFilter('studyType', $event)">
@@ -27,7 +28,7 @@
         <option v-for="type in internalExternalTypes">{{type}}</option>
       </select>
     </div>
-
+-->
     <div class="filter">
       <div class="label">Strength of evidence</div>
       <select v-on:change="setFilter('strengthOfEvidence', $event)">

@@ -45,8 +45,8 @@ function getStudies(ivs, ocs, data) {
       // evidenceAgainst: d['Evidence against the intervention?'][0].toUpperCase() === 'Y',
       forAgainstEvidence: d['Evidence against the intervention?'][0].toUpperCase() === 'Y' ? 'against' : 'for',
       strengthOfEvidence: d['Strength of Evidence'].toLowerCase(),
-      internalExternal: d['Internal / External'].toUpperCase().slice(0,2) === 'IN' ? 'Internal' : d['Internal / External'].toUpperCase().slice(0,2) === 'EX' ? 'External' : 'Unknown',
-      studyType: d['Primary study / Review']
+      // internalExternal: d['Internal / External'].toUpperCase().slice(0,2) === 'IN' ? 'Internal' : d['Internal / External'].toUpperCase().slice(0,2) === 'EX' ? 'External' : 'Unknown',
+      // studyType: d['Primary study / Review']
     }
 
     let population = d.Population.split(';')
