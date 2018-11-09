@@ -3,7 +3,7 @@
   <div class="scrollable-table" :style="{marginLeft: sidebarWidth + 'px'}">
     <div class="fixed-corner" :style="{left: sidebarWidth + 'px', width: leftHeaderWidth + 'px', height: topHeaderHeight + 'px'}">
       <svg :width="leftHeaderWidth" :height="topHeaderHeight">
-        <g transform="translate(20, 160)">
+        <g transform="translate(5, 160)">
           <g transform="translate(0, 0)">
             <rect x="12.658227848101262" width="24.050632911392405" y="-10" height="10" style="fill: rgb(19, 119, 82); opacity: 0.3;"></rect>
             <rect x="37.974683544303794" width="24.050632911392405" y="-27.428571428571427" height="27.428571428571427" style="fill: rgb(19, 119, 82); opacity: 0.6;"></rect>
@@ -13,17 +13,23 @@
             <rect x="37.974683544303794" width="24.050632911392405" y="0" height="19.142857142857142" style="fill: rgb(231, 4, 15); opacity: 0.6;"></rect>
             <rect x="63.291139240506325" width="24.050632911392405" y="0" height="8" style="fill: rgb(231, 4, 15); opacity: 1;"></rect></g>
 
-            <text x="95" y="-10">Evidence for</text>
-            <text x="95" y="22">Evidence against</text>
+            <g fill="#137752" transform="translate(0, -18)">
+              <text x="95" >Evidence supporting</text>
+              <text x="95" y="13">the intervention</text>
+            </g>
+            <g fill="#e7040f" transform="translate(0, 15)">
+              <text x="95">Evidence not supporting</text>
+              <text x="95" y="13">the intervention</text>
+            </g>
 
             <g transform="translate(28,-40)">
-              <text transform="rotate(-90)">Low evidence</text>
+              <text transform="rotate(-90)" style="opacity: 0.4;">Low quality evidence</text>
             </g>
             <g transform="translate(54,-40)">
-              <text transform="rotate(-90)">Moderate evidence</text>
+              <text transform="rotate(-90)" style="opacity: 0.7">Moderate quality</text>
             </g>
             <g transform="translate(80,-40)">
-              <text transform="rotate(-90)">Strong evidence</text>
+              <text transform="rotate(-90)">High quality evidence</text>
             </g>
         </g>
       </svg>
@@ -200,7 +206,7 @@ export default {
 
 .fixed-corner text {
   font-size: 12px;
-  fill: #555;
+  /* fill: #555; */
 }
 
 .fixed-row {
