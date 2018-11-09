@@ -2,8 +2,11 @@
   <div id="sidebar" :style="{width: width + 'px'}">
     <div class="section">
       <h3 class="">International HIV and AIDS Alliance Evidence map of community action on HIV, health and rights</h3>
-      <p>Interventions are presented on the horizontal axis and Outcomes are presented on the vertical axis.</p>
-      <p>Lorem ipsum dolor sit amet, definiebas intellegam ius cu, pri ei epicurei rationibus, ex eum dicta sonet invidunt. Ei mea nihil discere appareat, ut usu reque facilis assueverit, et vix oblique periculis omittantur. Ne eros verear instructior sed, vero scribentur nec te. No convenire euripidis vulputate sit. Id scaevola expetenda cotidieque his.</p>
+      <div v-if="showInfoText">
+        <p>Interventions are presented on the horizontal axis and Outcomes are presented on the vertical axis.</p>
+        <p>Lorem ipsum dolor sit amet, definiebas intellegam ius cu, pri ei epicurei rationibus, ex eum dicta sonet invidunt. Ei mea nihil discere appareat, ut usu reque facilis assueverit, et vix oblique periculis omittantur. Ne eros verear instructior sed, vero scribentur nec te. No convenire euripidis vulputate sit. Id scaevola expetenda cotidieque his.</p>
+      </div>
+      <div class="info-text-button" v-on:click="toggleInfoText"><span v-if="showInfoText">Hide</span><span v-else>Show info</span></div>
     </div>
     <div class="heading">FILTER</div>
     <FilterMenu :studies="studies" :action="action" :filters="filters" />
@@ -55,6 +58,7 @@ export default {
   },
   data: function() {
     return {
+      showInfoText: true
     }
   },
   computed: {
@@ -64,6 +68,11 @@ export default {
     numFoundStudies: function() {
       let num = this.studyGroups.for.high.length + this.studyGroups.for.moderate.length + this.studyGroups.for.low.length + this.studyGroups.against.high.length + this.studyGroups.against.moderate.length + this.studyGroups.against.low.length
       return num
+    }
+  },
+  methods: {
+    toggleInfoText: function() {
+      this.showInfoText = !this.showInfoText
     }
   }
 }
@@ -86,6 +95,14 @@ export default {
 
 h3 {
   padding: 0 10px;
+}
+.info-text-button {
+  font-size: 12px;
+  text-decoration: underline;
+  text-align: right;
+  color: #777;
+  cursor: pointer;
+  padding-right: 10px;
 }
 .section {
   padding-bottom: 20px;
