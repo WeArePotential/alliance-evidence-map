@@ -9,6 +9,7 @@
 import ScrollingEvidenceTable from './components/ScrollingEvidenceTable.vue'
 import Sidebar from './components/Sidebar.vue'
 import {csv as d3_csv} from 'd3-request'
+import filter from 'lodash/filter'
 
 import {getOutcomes, getInterventions, getOutcomeGroups, getInterventionGroups, getStudies, getStudiesLU, getOutcomeInterventionLU, getMaxStudies, getFilteredStudies} from './data-processing'
 
@@ -47,9 +48,14 @@ export default {
     }
   },
   mounted: function() {
-    d3_csv('data/interventions.csv', (err, interventionsCsv) => {
-      d3_csv('data/outcomes.csv?1', (err, outcomesCsv) => {
-        d3_csv('data/evidence-map.csv?1', (err, studiesCsv) => {
+    d3_csv('data/interventions.csv?3', (err, interventionsCsv) => {
+      d3_csv('data/outcomes.csv?3', (err, outcomesCsv) => {
+        d3_csv('data/evidence-map.csv?3', (err, studiesCsv) => {
+          interventionsCsv = filter(interventionsCsv, d => d.Intervention)
+          outcomesCsv = filter(outcomesCsv, d => d.Outcome)
+          studiesCsv = filter(studiesCsv, d => d.Title)
+          studiesCsv = filter(studiesCsv, d => d.Eligibility && d.Eligibility[0].toUpperCase() === 'Y')
+
           this.outcomes = getOutcomes(outcomesCsv)
           this.outcomeGroups = getOutcomeGroups(outcomesCsv)
 

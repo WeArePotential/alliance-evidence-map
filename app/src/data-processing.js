@@ -104,7 +104,6 @@ function getOutcomeInterventionLU(ivs, ocs, studies) {
 
   // Fill it in!
   studies.forEach(d => {
-    let id = d.id
     let evidenceAgainst = d.forAgainstEvidence === 'against'
     let strength = d.strengthOfEvidence
 
