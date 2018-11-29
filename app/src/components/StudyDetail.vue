@@ -5,8 +5,8 @@
     <div class="field"><span>Organisations:</span> {{study.orgsInvolved}}</div>
     <div class="field"><span>Publication date:</span> {{study.date}}</div>
     <div class="summary serif">
-      <div v-if="expanded" v-html="study.summary" />
-      <div v-else><span v-html="study.summary.slice(0, 200)" /><span>...</span></div>
+      <div v-if="expanded" v-html="sanitisedSummary" />
+      <div v-else><span v-html="sanitisedSummary.slice(0, 200)" /><span>...</span></div>
     </div>
 
     <div v-if="expanded" class="field"><span>Link:</span><a class="dim" :href="study.url" target="_blank"> {{study.url}}</a></div>
@@ -19,7 +19,7 @@
 
 
 <script>
-// {{expanded ? study.summary : study.summary.slice(0, 200) + '...'}}
+import striptags from 'striptags'
 
 export default {
   name: 'StudyDetail',
@@ -34,6 +34,11 @@ export default {
   methods: {
     handleClick: function() {
       this.expanded = !this.expanded
+    }
+  },
+  computed: {
+    sanitisedSummary: function() {
+      return striptags(this.study.summary, '<p>')
     }
   }
 }
