@@ -4,7 +4,10 @@
     <div class="field"><span>Authors:</span> {{study.authors}}</div>
     <div class="field"><span>Organisations:</span> {{study.orgsInvolved}}</div>
     <div class="field"><span>Publication date:</span> {{study.date}}</div>
-    <div class="summary serif">{{expanded ? study.summary : study.summary.slice(0, 200) + '...'}}</div>
+    <div class="summary serif">
+      <div v-if="expanded" v-html="study.summary" />
+      <div v-else><span v-html="study.summary.slice(0, 200)" /><span>...</span></div>
+    </div>
 
     <div v-if="expanded" class="field"><span>Link:</span><a class="dim" :href="study.url" target="_blank"> {{study.url}}</a></div>
     <div v-if="expanded" class="field"><span>Country:</span> {{study.countries.join(', ')}}</div>
@@ -16,6 +19,7 @@
 
 
 <script>
+// {{expanded ? study.summary : study.summary.slice(0, 200) + '...'}}
 
 export default {
   name: 'StudyDetail',
