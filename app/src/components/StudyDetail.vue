@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     sanitisedSummary: function() {
-      return striptags(this.study.summary, '<p>')
+      return striptags(this.study.summary, ['p', 'a'])
     }
   }
 }
