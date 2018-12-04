@@ -45,7 +45,7 @@
         </div>
       </div>
       <div class="interventions">
-        <div class="fixed-row-cell" v-for="(intervention, i) in interventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * cellWidth) + 'px', top: categoryWidth + 'px', width: cellWidth + 'px', height: (topHeaderHeight - categoryWidth) + 'px', backgroundColor: selectedCell.intervention === intervention ? '#999' : null}">
+        <div class="fixed-row-cell" v-for="(intervention, i) in groupedInterventions" :style="{left: (-innerOffsetX + leftHeaderWidth + i * cellWidth) + 'px', top: categoryWidth + 'px', width: cellWidth + 'px', height: (topHeaderHeight - categoryWidth) + 'px', backgroundColor: selectedCell.intervention === intervention ? '#999' : null}">
           <div class="b">{{intervention}}</div>
         </div>
       </div>
@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="outcomes">
-        <div class="fixed-col-cell" v-for="(outcome, i) in outcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * cellHeight) + 'px', left: categoryWidth + 'px', width: (leftHeaderWidth - categoryWidth) + 'px', height: cellHeight + 'px', backgroundColor: selectedCell.outcome === outcome ? '#ddd' : null}">
+        <div class="fixed-col-cell" v-for="(outcome, i) in groupedOutcomes" :style="{top: (-innerOffsetY + topHeaderHeight + i * cellHeight) + 'px', left: categoryWidth + 'px', width: (leftHeaderWidth - categoryWidth) + 'px', height: cellHeight + 'px', backgroundColor: selectedCell.outcome === outcome ? '#ddd' : null}">
           <div class="b">{{outcome}}</div>
         </div>
       </div>
@@ -72,18 +72,18 @@
       <div class="grid-inner" :style="{left: (leftHeaderWidth) + 'px', top: (topHeaderHeight) + 'px'}">
         <svg v-bind:width="numCols * cellWidth" v-bind:height="numRows * cellHeight"  v-if="outcomeGroups.length > 0" @click="action('selectCell', {outcome: null, intervention: null})">
           <g class="cells">
-            <g v-for="(outcome, i) in outcomes" v-bind:transform="`translate(0, ${i * cellHeight})`">
-              <g v-for="(intervention, j) in interventions" v-bind:transform="`translate(${j * cellWidth}, 0)`" @click.stop="action('selectCell', {outcome: outcome, intervention: intervention})">
+            <g v-for="(outcome, i) in groupedOutcomes" v-bind:transform="`translate(0, ${i * cellHeight})`">
+              <g v-for="(intervention, j) in groupedInterventions" v-bind:transform="`translate(${j * cellWidth}, 0)`" @click.stop="action('selectCell', {outcome: outcome, intervention: intervention})">
                 <Barchart :data="outcomeInterventionLU[outcome][intervention]" :width="cellWidth" :height="cellHeight" :maxStudies="maxStudies" :selected="selectedCell.outcome === outcome && selectedCell.intervention === intervention"/>
               </g>
             </g>
           </g>
 
           <g class="grid-lines">
-            <g v-for="(outcome, i) in outcomes" v-bind:transform="`translate(0, ${i * cellHeight})`">
+            <g v-for="(outcome, i) in groupedOutcomes" v-bind:transform="`translate(0, ${i * cellHeight})`">
               <line class="grid-line" :x2="numCols * cellWidth" />
             </g>
-            <g v-for="(intervention, i) in interventions" v-bind:transform="`translate(${i * cellWidth})`">
+            <g v-for="(intervention, i) in groupedInterventions" v-bind:transform="`translate(${i * cellWidth})`">
               <line class="grid-line" :y2="numRows * cellHeight" />
             </g>
           </g>
@@ -147,6 +147,13 @@ export default {
       })
       return headers
     },
+    groupedOutcomes: function() {
+      let outcomes = []
+      this.outcomeGroups.forEach(g => {
+        outcomes = outcomes.concat(g.items)
+      })
+      return outcomes
+    },
     interventionHeaders: function() {
       let x = this.leftHeaderWidth
       let headers = []
@@ -167,7 +174,14 @@ export default {
         x += w
       })
       return headers
-    }
+    },
+    groupedInterventions: function() {
+      let interventions = []
+      this.interventionGroups.forEach(g => {
+        interventions = interventions.concat(g.items)
+      })
+      return interventions
+    },
   },
   mounted: function() {
     let self = this
