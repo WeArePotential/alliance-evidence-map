@@ -145,7 +145,7 @@ h3 {
 
 .heading {
   text-align: center;
-  background-color: #a71930;
+  background-color: #36b0e3;
   color: white;
   padding: 5px;
   font-weight: bold;

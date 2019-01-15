@@ -3,9 +3,9 @@
     <rect class="background" :width="width" :height="height" :style="{fill: selected ? '#ddd' : null}"/>
     <g v-if="nonZero" class="cell">
       <g :transform="`translate(0, ${0.5 * height})`">
-        <rect v-for="bar in positiveBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#137752', opacity: bar.opacity}"/>
+        <rect v-for="bar in positiveBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#23844e', opacity: bar.opacity}"/>
         <line x1="10" :x2="width - 10" />
-        <rect v-for="bar in negativeBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#e7040f', opacity: bar.opacity}"/>
+        <rect v-for="bar in negativeBars" :x="bar.x" :width="bar.width" :y="bar.y" :height="bar.height" :style="{fill: '#e52e78', opacity: bar.opacity}"/>
       </g>
     </g>
   </g>
