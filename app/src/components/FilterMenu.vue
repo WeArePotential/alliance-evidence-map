@@ -23,14 +23,14 @@
         <option v-for="type in studyTypes">{{type}}</option>
       </select>
     </div>
-
+-->
     <div class="filter">
       <div class="label">Internal / External</div>
-      <select v-on:change="setFilter('internalExternal', $event)">
+      <select v-model="filters.internalExternal">
         <option v-for="type in internalExternalTypes">{{type}}</option>
       </select>
     </div>
--->
+
     <div class="filter">
       <div class="label">Strength of evidence</div>
       <select v-model="filters.strengthOfEvidence">

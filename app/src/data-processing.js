@@ -45,7 +45,7 @@ function getStudies(ivs, ocs, data) {
       // evidenceAgainst: d['Evidence against the intervention?'][0].toUpperCase() === 'Y',
       forAgainstEvidence: d['Evidence against the intervention?'][0].toUpperCase() === 'Y' ? 'against' : 'for',
       strengthOfEvidence: d['Strength of Evidence'].toLowerCase(),
-      // internalExternal: d['Internal / External'].toUpperCase().slice(0,2) === 'IN' ? 'Internal' : d['Internal / External'].toUpperCase().slice(0,2) === 'EX' ? 'External' : 'Unknown',
+      internalExternal: d['Internal / External'].toUpperCase().slice(0,2) === 'IN' ? 'Internal' : d['Internal / External'].toUpperCase().slice(0,2) === 'EX' ? 'External' : 'Unknown',
       // studyType: d['Primary study / Review']
     }
 
@@ -193,7 +193,7 @@ function getMaxStudies(ivs, ocs, lu) {
 }
 
 function getFilteredStudies(studies, filters) {
-  // console.log('filter', filters)
+  // console.log('filter', filters, 'studies', studies)
   let filtered = filter(studies, study => {
     let include = true
 
