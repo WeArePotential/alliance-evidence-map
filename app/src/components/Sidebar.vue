@@ -28,7 +28,7 @@
       </div>
 
       <div class="section">
-        <div v-bind:class="{heading: true, animated: emphasiseChange, infinite: true, flash: true}">STUDIES ({{numFoundStudies}} found)</div>
+        <div v-bind:class="{heading: true, animated: emphasiseChange, infinite: emphasiseChange, flash: emphasiseChange}">STUDIES ({{numFoundStudies}} found)</div>
         <div class="study-groups">
           <StudyList title="Strong evidence (for)" :ids="studyGroups.for.high" :studiesLU="studiesLU" />
           <StudyList title="Moderate evidence (for)" :ids="studyGroups.for.moderate" :studiesLU="studiesLU" />
