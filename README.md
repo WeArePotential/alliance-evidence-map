@@ -23,3 +23,14 @@ CSS styling is in the individual components e.g. the sidebar styling is at the b
 ## Build
 
 Build the app for production using `npm run build` which updates the `dist` directory. Upload the `dist` directory to your web server.
+
+## Data
+
+There are three CSV files:
+
+- `evidence-map.csv` which is the main data sheet containing a list of studies
+- `interventions.csv` which contains a list of interventions. Each intervention has a category (e.g. `HIV prevention, care and treatment interventions`)
+- `outcomes.csv` which contains a list of outcomes. Each outcome has a category (e.g. `Individual-level outcomes`)
+
+Each study (in `evidence-map.csv`) has an `Interventions` and an `Outcomes` value consisting of a semi-colon separated list of ids. Each id links to a row in `interventions.csv` and `outcomes.csv` respectively.
+
