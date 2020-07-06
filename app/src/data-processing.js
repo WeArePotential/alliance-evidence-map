@@ -1,6 +1,7 @@
 import uniq from 'lodash/uniq'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
+import intersection from 'lodash/intersection'
 
 function getOutcomes(outcomes) {
   let ret = outcomes.map(d => d.Outcome)
@@ -193,15 +194,17 @@ function getMaxStudies(ivs, ocs, lu) {
 }
 
 function getFilteredStudies(studies, filters) {
-  // console.log('filter', filters, 'studies', studies)
   let filtered = filter(studies, study => {
     let include = true
 
     filters.filterIds.forEach(id => {
-      if(filters[id] === 'All')
+      if(filters[id] === 'All' || (id === 'population' && filters.population.length === 0))
         return
 
-      if(id === 'population' || id=== 'countries') {
+      if(id === 'population') {
+        if(intersection(study.population, filters.population).length === 0)
+          include = false
+      } else if(id === 'countries') {
         if(!includes(study[id], filters[id]))
           include = false
       } else {

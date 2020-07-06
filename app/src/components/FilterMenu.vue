@@ -1,16 +1,19 @@
 <template>
   <div id="filter-menu">
-    <div class="filter">
-      <div class="label">Country</div>
-      <select v-model="filters.countries">
-        <option v-for="country in countries">{{country}}</option>
-      </select>
+      <div>
+    <div class="filter" style="width: 100%;">
+      <div class="label">Population</div>
+<!--      <select v-model="filters.population">
+        <option v-for="population in populations">{{population}}</option>
+      </select>-->
+      <multiselect v-model="filters.population" :options="populations" :multiple="true" :searchable="false" :hide-selected="true" placeholder="Select population(s)"></multiselect>
+    </div>
     </div>
 
     <div class="filter">
-      <div class="label">Population</div>
-      <select v-model="filters.population">
-        <option v-for="population in populations">{{population}}</option>
+      <div class="label">Country</div>
+      <select v-model="filters.countries">
+        <option v-for="country in countries" :key="country">{{country}}</option>
       </select>
     </div>
 
@@ -27,21 +30,21 @@
     <div class="filter">
       <div class="label">Internal / External</div>
       <select v-model="filters.internalExternal">
-        <option v-for="type in internalExternalTypes">{{type}}</option>
+        <option v-for="type in internalExternalTypes" :key="type">{{type}}</option>
       </select>
     </div>
 
     <div class="filter">
       <div class="label">Strength of evidence</div>
       <select v-model="filters.strengthOfEvidence">
-        <option v-for="strength in evidenceStrengths" :value="strength">{{strength | capitalize }}</option>
+        <option v-for="strength in evidenceStrengths" :value="strength" :key="strength">{{strength | capitalize }}</option>
       </select>
     </div>
 
     <div class="filter">
       <div class="label">For / against evidence</div>
       <select v-model="filters.forAgainstEvidence">
-        <option v-for="type in forAgainstEvidenceTypes" :value="type">{{type | capitalize}}</option>
+        <option v-for="type in forAgainstEvidenceTypes" :value="type" :key="type">{{type | capitalize}}</option>
       </select>
     </div>
 
@@ -52,9 +55,13 @@
 
 <script>
 import uniq from 'lodash/uniq'
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'FilterMenu',
+  components: {
+    Multiselect
+  },
   props: {
     studies: Array,
     filters: Object,
@@ -96,7 +103,6 @@ export default {
       })
       population = uniq(population)
       population.sort()
-      population.unshift('All')
       return population
     },
     studyTypes: function() {
@@ -120,6 +126,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <style scoped>
 #filter-menu {
   padding: 0 10px;
@@ -143,5 +151,21 @@ export default {
   color: #777;
   cursor: pointer;
   margin-bottom: 10px;
+}
+</style>
+
+<style>
+#filter-menu .multiselect__option--highlight, #filter-menu .multiselect__tag {
+  background: #36b0e3;
+}
+#filter-menu .multiselect__option--highlight:after {
+  display: none;
+}
+#filter-menu .multiselect__tag-icon:hover {
+  background: #e52e78;
+}
+#filter-menu input, #filter-menu .multiselect__tags {
+  border-color: #333;
+  border-radius: 2px;
 }
 </style>
