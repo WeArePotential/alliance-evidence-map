@@ -38,8 +38,9 @@ export default {
 
       filters: {
         filterIds: ['countries', 'population',/* 'studyType',*/ 'internalExternal', 'strengthOfEvidence', 'forAgainstEvidence'],
+        filterType: ['single', 'multi',/* 'single',*/ 'single', 'single', 'single'],
         countries: 'All',
-        population: 'All',
+        population: [],
         // studyType: 'All',
         internalExternal: 'All',
         strengthOfEvidence: 'All',
@@ -89,7 +90,7 @@ export default {
       //   this.setEmphasiseChange()
       //   break
       case 'resetFilter':
-        this.filters.filterIds.forEach(d => this.filters[d] = 'All')
+        this.filters.filterIds.forEach((d, i) => this.filters[d] = this.filters.filterType[i] === 'single' ? 'All' : [])
         break
       default:
         console.log('Unknown action', type)
