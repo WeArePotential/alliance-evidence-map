@@ -2,6 +2,7 @@ import uniq from 'lodash/uniq'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 import intersection from 'lodash/intersection'
+import { regionLU } from './region-lookup'
 
 function getOutcomes(outcomes) {
   let ret = outcomes.map(d => d.Outcome)
@@ -58,6 +59,15 @@ function getStudies(ivs, ocs, data) {
     countries = countries.map(d => d.trim())
     study.countries = countries
 
+    let regions = study.countries.map(d => {
+      let region = regionLU[d];
+      if(!region) {
+        console.warn('No region for', d)
+      }
+      return region
+    })
+    study.regions = uniq(regions)
+
     let interventions = d.Interventions.split(';')
     interventions = interventions.map(d => ivlu[+d])
     study.interventions = interventions
@@ -69,6 +79,7 @@ function getStudies(ivs, ocs, data) {
     studies.push(study)
   })
 
+  console.log(studies)
   return studies
 }
 
