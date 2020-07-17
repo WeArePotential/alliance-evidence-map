@@ -79,7 +79,7 @@ function getStudies(ivs, ocs, data) {
     studies.push(study)
   })
 
-  console.log(studies)
+  // console.log(studies)
   return studies
 }
 
@@ -214,7 +214,7 @@ function getFilteredStudies(studies, filters) {
       if(filters[id] === 'All' || (multi && filters[id].length === 0))
         return
 
-      if(id === "countries" || id === "population") {
+      if(id === "regions" || id === "countries" || id === "population") {
         if(intersection(study[id], filters[id]).length === 0)
           include = false
       } else if(id === "strengthOfEvidence") {

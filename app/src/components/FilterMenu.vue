@@ -2,8 +2,8 @@
   <div id="filter-menu">
     <div>
       <div class="filter" style="width: 100%;">
-        <div class="label">Population</div>
-        <multiselect v-model="filters.population" :options="populations" :multiple="true" :searchable="false" :hide-selected="true" placeholder="Select population(s)"></multiselect>
+        <div class="label">Region</div>
+        <multiselect v-model="filters.regions" :options="regions" :multiple="true" :searchable="false" :hide-selected="true" placeholder="Select region(s)"></multiselect>
       </div>
     </div>
 
@@ -11,6 +11,13 @@
       <div class="filter" style="width: 100%;">
         <div class="label">Country</div>
         <multiselect v-model="filters.countries" :options="countries" :multiple="true" :searchable="false" :hide-selected="true" placeholder="Select country(s)"></multiselect>
+      </div>
+    </div>
+
+    <div>
+      <div class="filter" style="width: 100%;">
+        <div class="label">Population</div>
+        <multiselect v-model="filters.population" :options="populations" :multiple="true" :searchable="false" :hide-selected="true" placeholder="Select population(s)"></multiselect>
       </div>
     </div>
 
@@ -76,6 +83,18 @@ export default {
     }
   },
   computed: {
+    regions: function() {
+      let regions = []
+      this.studies.forEach(d => {
+        d.regions.forEach(c => {
+          if(c === '') return
+          regions.push(c)
+        })
+      })
+      regions = uniq(regions)
+      regions.sort()
+      return regions
+    },
     countries: function() {
       let countries = []
       this.studies.forEach(d => {

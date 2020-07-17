@@ -37,8 +37,9 @@ export default {
       emphasiseChange: false,
 
       filters: {
-        filterIds: ['countries', 'population',/* 'studyType',*/ 'internalExternal', 'strengthOfEvidence', 'forAgainstEvidence'],
-        filterType: ['multi', 'multi',/* 'single',*/ 'single', 'multi', 'single'],
+        filterIds: ['regions', 'countries', 'population',/* 'studyType',*/ 'internalExternal', 'strengthOfEvidence', 'forAgainstEvidence'],
+        filterType: ['multi', 'multi', 'multi',/* 'single',*/ 'single', 'multi', 'single'],
+        regions: [],
         countries: [],
         population: [],
         // studyType: 'All',
