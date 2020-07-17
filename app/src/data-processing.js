@@ -197,15 +197,17 @@ function getFilteredStudies(studies, filters) {
   let filtered = filter(studies, study => {
     let include = true
 
-    filters.filterIds.forEach(id => {
-      if(filters[id] === 'All' || (id === 'population' && filters.population.length === 0))
+    filters.filterIds.forEach((id, i) => {
+      let multi = filters.filterType[i] === "multi"
+
+      if(filters[id] === 'All' || (multi && filters[id].length === 0))
         return
 
-      if(id === 'population') {
-        if(intersection(study.population, filters.population).length === 0)
+      if(id === "countries" || id === "population") {
+        if(intersection(study[id], filters[id]).length === 0)
           include = false
-      } else if(id === 'countries') {
-        if(!includes(study[id], filters[id]))
+      } else if(id === "strengthOfEvidence") {
+        if(!includes(filters[id], study[id]))
           include = false
       } else {
         if(study[id] !== filters[id])

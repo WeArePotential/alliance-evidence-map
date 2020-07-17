@@ -1,43 +1,39 @@
 <template>
   <div id="filter-menu">
-      <div>
-    <div class="filter" style="width: 100%;">
-      <div class="label">Population</div>
-<!--      <select v-model="filters.population">
-        <option v-for="population in populations">{{population}}</option>
-      </select>-->
-      <multiselect v-model="filters.population" :options="populations" :multiple="true" :searchable="false" :hide-selected="true" placeholder="Select population(s)"></multiselect>
-    </div>
+    <div>
+      <div class="filter" style="width: 100%;">
+        <div class="label">Population</div>
+        <multiselect v-model="filters.population" :options="populations" :multiple="true" :searchable="false" :hide-selected="true" placeholder="Select population(s)"></multiselect>
+      </div>
     </div>
 
-    <div class="filter">
-      <div class="label">Country</div>
-      <select v-model="filters.countries">
-        <option v-for="country in countries" :key="country">{{country}}</option>
-      </select>
+    <div>
+      <div class="filter" style="width: 100%;">
+        <div class="label">Country</div>
+        <multiselect v-model="filters.countries" :options="countries" :multiple="true" :searchable="false" :hide-selected="true" placeholder="Select country(s)"></multiselect>
+      </div>
     </div>
 
-<!-- v-on:change="setFilter('countries', $event)" -->
-<!-- v-on:change="setFilter('population', $event)" -->
-<!--
-    <div class="filter">
-      <div class="label">Type of study</div>
-      <select v-on:change="setFilter('studyType', $event)">
-        <option v-for="type in studyTypes">{{type}}</option>
-      </select>
+    <!--
+         <div class="filter">
+         <div class="label">Type of study</div>
+         <select v-on:change="setFilter('studyType', $event)">
+         <option v-for="type in studyTypes">{{type}}</option>
+         </select>
+         </div>
+    -->
+
+    <div>
+      <div class="filter" style="width: 100%;">
+        <div class="label">Strength of evidence</div>
+        <multiselect v-model="filters.strengthOfEvidence" :options="evidenceStrengths" :multiple="true" :searchable="false" :hide-selected="true" placeholder="Select strength(s) of evidence"></multiselect>
+      </div>
     </div>
--->
+
     <div class="filter">
       <div class="label">Internal / External</div>
       <select v-model="filters.internalExternal">
         <option v-for="type in internalExternalTypes" :key="type">{{type}}</option>
-      </select>
-    </div>
-
-    <div class="filter">
-      <div class="label">Strength of evidence</div>
-      <select v-model="filters.strengthOfEvidence">
-        <option v-for="strength in evidenceStrengths" :value="strength" :key="strength">{{strength | capitalize }}</option>
       </select>
     </div>
 
@@ -90,7 +86,7 @@ export default {
       })
       countries = uniq(countries)
       countries.sort()
-      countries.unshift('All')
+      /* countries.unshift('All') */
       return countries
     },
     populations: function() {
@@ -105,16 +101,16 @@ export default {
       population.sort()
       return population
     },
-    studyTypes: function() {
-      let types = uniq(this.studies.map(d => d.studyType))
-      types.unshift('All')
-      return types
-    },
+    /* studyTypes: function() {
+     *   let types = uniq(this.studies.map(d => d.studyType))
+     *   types.unshift('All')
+     *   return types
+     * }, */
     internalExternalTypes: function() {
       return ['All', 'Internal', 'External']
     },
     evidenceStrengths: function() {
-      let strengths = ['All', 'low', 'moderate', 'high']
+      let strengths = ['low', 'moderate', 'high']
       return strengths
     },
     forAgainstEvidenceTypes: function() {
