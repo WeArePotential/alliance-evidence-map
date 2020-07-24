@@ -60,6 +60,8 @@
 import uniq from 'lodash/uniq'
 import Multiselect from 'vue-multiselect'
 
+import { regionNames } from '../region-lookup'
+
 export default {
   name: 'FilterMenu',
   components: {
@@ -84,16 +86,7 @@ export default {
   },
   computed: {
     regions: function() {
-      let regions = []
-      this.studies.forEach(d => {
-        d.regions.forEach(c => {
-          if(c === '') return
-          regions.push(c)
-        })
-      })
-      regions = uniq(regions)
-      regions.sort()
-      return regions
+      return regionNames
     },
     countries: function() {
       let countries = []
@@ -105,7 +98,6 @@ export default {
       })
       countries = uniq(countries)
       countries.sort()
-      /* countries.unshift('All') */
       return countries
     },
     populations: function() {

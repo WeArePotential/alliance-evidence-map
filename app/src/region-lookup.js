@@ -10,18 +10,25 @@ var regions  = {
 }
 
 let regionLU = {}
+let regionNames = []
 
 function buildLookup() {
 
   Object.keys(regions).forEach(k => {
-    let countries = regions[k];
+    let countries = regions[k]
 
     countries.forEach(c => {
-      regionLU[c] = k;
+      regionLU[c] = k
     });
   });
 }
 
-buildLookup()
+function buildRegionNames() {
+    regionNames = Object.keys(regions)
+    regionNames.sort()
+}
 
-export { regionLU };
+buildLookup()
+buildRegionNames()
+
+export { regionLU, regionNames }
