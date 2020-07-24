@@ -44,12 +44,12 @@
       </select>
     </div>
 
-    <div class="filter">
-      <div class="label">For / against evidence</div>
-      <select v-model="filters.forAgainstEvidence">
-        <option v-for="type in forAgainstEvidenceTypes" :value="type" :key="type">{{type | capitalize}}</option>
-      </select>
-    </div>
+    <!-- <div class="filter">
+         <div class="label">For / against evidence</div>
+         <select v-model="filters.forAgainstEvidence">
+         <option v-for="type in forAgainstEvidenceTypes" :value="type" :key="type">{{type | capitalize}}</option>
+         </select>
+         </div> -->
 
     <div class="reset-button" v-on:click="resetFilter()">Reset filter</div>
   </div>
@@ -124,10 +124,10 @@ export default {
       let strengths = ['low', 'moderate', 'high']
       return strengths
     },
-    forAgainstEvidenceTypes: function() {
-      let types = ['All', 'for', 'against']
-      return types
-    }
+    /* forAgainstEvidenceTypes: function() {
+     *   let types = ['All', 'for', 'against']
+     *   return types
+     * } */
   }
 }
 </script>
