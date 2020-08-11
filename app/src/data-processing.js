@@ -1,6 +1,8 @@
 import uniq from 'lodash/uniq'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
+import intersection from 'lodash/intersection'
+import { regionLU } from './region-lookup'
 
 function getOutcomes(outcomes) {
   let ret = outcomes.map(d => d.Outcome)
@@ -57,6 +59,15 @@ function getStudies(ivs, ocs, data) {
     countries = countries.map(d => d.trim())
     study.countries = countries
 
+    let regions = study.countries.map(d => {
+      let region = regionLU[d];
+      if(!region) {
+        console.warn('No region for', d)
+      }
+      return region
+    })
+    study.regions = uniq(regions)
+
     let interventions = d.Interventions.split(';')
     interventions = interventions.map(d => ivlu[+d])
     study.interventions = interventions
@@ -68,6 +79,7 @@ function getStudies(ivs, ocs, data) {
     studies.push(study)
   })
 
+  // console.log(studies)
   return studies
 }
 
@@ -193,16 +205,20 @@ function getMaxStudies(ivs, ocs, lu) {
 }
 
 function getFilteredStudies(studies, filters) {
-  // console.log('filter', filters, 'studies', studies)
   let filtered = filter(studies, study => {
     let include = true
 
-    filters.filterIds.forEach(id => {
-      if(filters[id] === 'All')
+    filters.filterIds.forEach((id, i) => {
+      let multi = filters.filterType[i] === "multi"
+
+      if(filters[id] === 'All' || (multi && filters[id].length === 0))
         return
 
-      if(id === 'population' || id=== 'countries') {
-        if(!includes(study[id], filters[id]))
+      if(id === "regions" || id === "countries" || id === "population") {
+        if(intersection(study[id], filters[id]).length === 0)
+          include = false
+      } else if(id === "strengthOfEvidence") {
+        if(!includes(filters[id], study[id]))
           include = false
       } else {
         if(study[id] !== filters[id])

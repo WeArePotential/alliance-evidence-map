@@ -37,12 +37,14 @@ export default {
       emphasiseChange: false,
 
       filters: {
-        filterIds: ['countries', 'population',/* 'studyType',*/ 'internalExternal', 'strengthOfEvidence', 'forAgainstEvidence'],
-        countries: 'All',
-        population: 'All',
+        filterIds: ['regions', 'countries', 'population',/* 'studyType',*/ 'internalExternal', 'strengthOfEvidence'/*, 'forAgainstEvidence'*/],
+        filterType: ['multi', 'multi', 'multi',/* 'single',*/ 'single', 'multi'/*, 'single'*/],
+        regions: [],
+        countries: [],
+        population: [],
         // studyType: 'All',
+        strengthOfEvidence: [],
         internalExternal: 'All',
-        strengthOfEvidence: 'All',
         forAgainstEvidence: 'All'
       }
     }
@@ -81,18 +83,18 @@ export default {
     action: function(type, args) {
       // console.log(type, args)
       switch(type) {
-      case 'selectCell':
-        this.selectedCell = args
-        this.setEmphasiseChange()
-        break
-      // case 'setFilter':
-      //   this.setEmphasiseChange()
-      //   break
-      case 'resetFilter':
-        this.filters.filterIds.forEach(d => this.filters[d] = 'All')
-        break
-      default:
-        console.log('Unknown action', type)
+        case 'selectCell':
+          this.selectedCell = args
+          this.setEmphasiseChange()
+          break
+          // case 'setFilter':
+          //   this.setEmphasiseChange()
+          //   break
+        case 'resetFilter':
+          this.filters.filterIds.forEach((d, i) => this.filters[d] = this.filters.filterType[i] === 'single' ? 'All' : [])
+          break
+        default:
+          console.log('Unknown action', type)
       }
     },
     setEmphasiseChange() {
